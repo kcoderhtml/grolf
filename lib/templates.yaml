@@ -6,3 +6,6 @@ fetch:
   start:
     - "I'm here to fetch data from the API for <@${user_id}>... :hourglass_flowing_sand:"
     - "I've bounded in to gobble up your data <@${user_id}>! :robot_face: :zap:"
+  not_found:
+    - "I couldn't find any data for <@${user_id}>... :sob:"
+    - "I'm sorry <@${user_id}>, I couldn't find any data for you... :sob:"
