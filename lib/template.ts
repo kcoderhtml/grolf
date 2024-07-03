@@ -1,11 +1,10 @@
 import { parse } from "yaml";
 
-type template = "app.startup"
-// | "app.startup"
-// | "onboarding.welcome_hacker"
+type template = "app.startup" | "fetch.start"
 
 interface data {
     environment?: string;
+    user_id?: string;
 }
 
 const file = await Bun.file("lib/templates.yaml").text();

@@ -17,9 +17,13 @@ function sendMessage(message: ChatPostMessageRequest): Promise<ChatPostMessageRe
     return limiter.schedule(() => slackClient.chat.postMessage(message));
 }
 
-async function slog(logMessage: string) {
+async function slog(logMessage: string, location?: {
+    thread_ts?: string,
+    channel: string
+}) {
     const message: ChatPostMessageRequest = {
-        channel: process.env.SLACK_LOG_CHANNEL!,
+        channel: location?.channel || process.env.SLACK_LOG_CHANNEL!,
+        thread_ts: location?.thread_ts,
         text: logMessage,
         blocks: [
             {
@@ -72,8 +76,11 @@ export const clog = async (logMessage: string, type: LogType) => {
     }
 };
 
-export const blog = async (logMessage: string, type: LogType) => {
-    slog(logMessage);
+export const blog = async (logMessage: string, type: LogType, location?: {
+    thread_ts?: string,
+    channel: string
+}) => {
+    slog(logMessage, location);
     clog(logMessage, type);
 };
 
