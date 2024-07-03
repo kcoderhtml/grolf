@@ -6,7 +6,7 @@ import * as features from "./features/index";
 
 import { db } from "./db/index";
 import * as schema from "./db/schema";
-import { githubHandler } from "./features/githubHandler";
+import { githubHandler, githubWebhookHandler } from "./features/githubHandler";
 
 const version = require('./package.json').version
 
@@ -63,6 +63,8 @@ export default {
                 return slackApp.run(request);
             case "/gh":
                 return await githubHandler(request);
+            case "/gh-webhook":
+                return await githubWebhookHandler(request);
             default:
                 return new Response("404 Not Found", { status: 404 });
         }

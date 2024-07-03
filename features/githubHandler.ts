@@ -19,6 +19,12 @@ export async function githubHandler(request: Request) {
     }
 }
 
+export async function githubWebhookHandler(request: Request) {
+    const json = await request.json();
+    console.log("Github Webhook Handler triggered for repo", json.repository.full_name)
+    return new Response("ok", { status: 200 });
+}
+
 // installation handler
 async function installationHandler(json: any) {
     console.log("Installation Handler for user", json.installation.account.login)
