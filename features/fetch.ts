@@ -11,6 +11,12 @@ const fetch = async (
     // listen for shortcut
     slackApp.shortcut("fetch", async () => { },
         async ({ context, payload }) => {
+            // first check if the message is in the arcade channel
+            // @ts-expect-error
+            if (payload.message.channel !== "C06SBHMQU8G" || payload.message.bot_id !== "B077ZPZ3RB7") {
+                return;
+            }
+
             // check if user is in db
             const user = await db.select().from(schema.users).where(like(schema.users.userID, payload.user.id))
 
