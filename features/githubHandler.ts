@@ -27,6 +27,7 @@ export async function githubWebhookHandler(request: Request) {
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.pusher.name))
 
     if (user.length !== 0) {
+        console.log("Sending commit to thread")
         // send the commits to the thread
         await slackClient.chat.postMessage({
             channel: "C06SBHMQU8G",
@@ -42,6 +43,8 @@ export async function githubWebhookHandler(request: Request) {
                 }
             ]
         })
+    } else {
+        console.log("No user found for commit")
     }
     return new Response("ok", { status: 200 });
 }
