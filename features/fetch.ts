@@ -18,7 +18,8 @@ const fetch = async (
                 clog(`User not found in DB: ${payload.user.id}`, "error");
 
                 const user = await context.client.users.info({ user: payload.user.id })
-                await db.insert(schema.users).values({ userName: user.user!.name, userID: payload.user.id, installed: 0, threadTS: payload.action_ts }).execute();
+                // @ts-expect-error
+                await db.insert(schema.users).values({ userName: user.user!.name, userID: payload.user.id, installed: 0, threadTS: payload.message.thread_ts }).execute();
 
                 // send a view to the user
                 await context.client.views.open({
@@ -64,7 +65,8 @@ const fetch = async (
                 clog(`User found in DB: ${payload.user.id}`, "info");
 
                 // update thread ts
-                await db.update(schema.users).set({ threadTS: payload.action_ts }).where(like(schema.users.userID, payload.user.id)).execute();
+                // @ts-expect-error
+                await db.update(schema.users).set({ threadTS: payload.message.thread_ts }).where(like(schema.users.userID, payload.user.id)).execute();
 
                 // send a view to the user
                 await context.client.views.open({
