@@ -12,7 +12,7 @@ const fetch = async (
     slackApp.shortcut("fetch", async () => { },
         async ({ context, payload }) => {
             // check if user is in db
-            const user = await db.select().from(schema.users).where(like(schema.users.id, payload.user.id))
+            const user = await db.select().from(schema.users).where(like(schema.users.userID, payload.user.id))
 
             if (user.length === 0) {
                 clog(`User not found in DB: ${payload.user.id}`, "error");
