@@ -44,7 +44,7 @@ export async function githubWebhookHandler(request: Request) {
             ]
         })
     } else {
-        console.log("No user found for commit")
+        console.log("No user found for commit: ", json.pusher.name)
     }
     return new Response("ok", { status: 200 });
 }
