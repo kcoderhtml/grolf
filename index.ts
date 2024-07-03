@@ -4,6 +4,9 @@ import { t } from "./lib/template";
 
 import * as features from "./features/index";
 
+import { db } from "./db/index";
+import * as schema from "./db/schema";
+
 const version = require('./package.json').version
 
 console.log("----------------------------------\nGrolf Server\n----------------------------------\n")
@@ -29,6 +32,11 @@ for (const [feature, handler] of Object.entries(features)) {
         handler();
     }
 }
+
+// loading db
+console.log(`⛁  Loading DB...`);
+const users = await db.select().from(schema.users).all();
+console.log(`👥 Loaded ${users.length} users`);
 
 console.log(`🚀 Server Started in ${Bun.nanoseconds() / 1000000} milliseconds on version: ${version}!\n\n----------------------------------\n`,)
 
