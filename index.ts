@@ -6,6 +6,7 @@ import * as features from "./features/index";
 
 import { db } from "./db/index";
 import * as schema from "./db/schema";
+import { githubHandler } from "./features/githubHandler";
 
 const version = require('./package.json').version
 
@@ -60,6 +61,8 @@ export default {
                 return new Response("OK");
             case "/slack":
                 return slackApp.run(request);
+            case "/gh":
+                return await githubHandler(request);
             default:
                 return new Response("404 Not Found", { status: 404 });
         }

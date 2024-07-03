@@ -28,9 +28,9 @@ const fetchHandler = async (
                         type: "section",
                         text: {
                             type: "mrkdwn",
-                            text: "You submitted the fetchGithub view! Now you need to authenticate yourself with your GitHub account."
+                            text: "Thanks for entering your GitHub username! Please click <https://github.com/apps/grolf-s-github-personality|here to connect your GitHub account> to continue."
                         }
-                    }
+                    },
                 ]
             }
         })
