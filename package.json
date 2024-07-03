@@ -7,12 +7,16 @@
 	"main": "index.ts",
 	"scripts": {
 		"dev": "bun run --watch index.ts",
-		"build": "bun build --compile --minify --sourcemap ./index.ts --outfile ./dist/grolf"
+		"build": "bun build --compile --minify --sourcemap ./index.ts --outfile ./dist/grolf",
+		"ngrok": "ngrok http 3000 --domain=casual-renewing-reptile.ngrok-free.app"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"
 	},
 	"peerDependencies": {
 		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"slack-edge": "^0.13.3"
 	}
 }
