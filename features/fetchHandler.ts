@@ -35,7 +35,7 @@ const fetchHandler = async (
         })
 
         // @ts-expect-error
-        await db.update(schema.users).set({ githubUser: payload.actions[0].value, installed: 1 }).where(like(schema.users.userID, payload.user.id)).execute();
+        await db.update(schema.users).set({ githubUser: payload.actions[0].value, installed: 1, viewID: payload.view!.id }).where(like(schema.users.userID, payload.user.id)).execute();
     })
 }
 
