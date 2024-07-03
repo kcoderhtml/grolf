@@ -1,0 +1,18 @@
+{
+	"name": "grolf",
+	"module": "index.ts",
+	"type": "module",
+	"version": "0.0.1",
+	"description": "A simple, fast, and lightweight arcade helper.",
+	"main": "index.ts",
+	"scripts": {
+		"dev": "bun run --watch index.ts",
+		"build": "bun build --compile --minify --sourcemap ./index.ts --outfile ./dist/grolf"
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
+}
