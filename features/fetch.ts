@@ -36,12 +36,13 @@ const fetch = async (
                         blocks: [
                             { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.not_found", { user_id: payload.user.id }) }] },
                             { type: "divider" },
+                            { type: "section", text: { type: "mrkdwn", text: "Can you please enter your :github: user name? my friends :octocat: and :grolf-bg: need it to send your git scraps yourway" } },
                             {
                                 type: "input",
                                 block_id: "fetch",
                                 label: {
                                     type: "plain_text",
-                                    text: "User ID",
+                                    text: "User Name",
                                     emoji: true
                                 },
                                 element: {
@@ -49,7 +50,7 @@ const fetch = async (
                                     action_id: "fetch",
                                     placeholder: {
                                         type: "plain_text",
-                                        text: "Enter user ID",
+                                        text: "Enter your :beautiful: user name",
                                         emoji: true
                                     }
                                 }
