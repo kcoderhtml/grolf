@@ -11,7 +11,8 @@
 		"ngrok": "ngrok http 3000 --domain=casual-renewing-reptile.ngrok-free.app",
 		"generate": "drizzle-kit generate",
 		"migrate": "bun run db/migrate.ts",
-		"seed": "bun run db/seed.ts"
+		"seed": "bun run db/seed.ts",
+		"list": "bun run db/list.ts"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
