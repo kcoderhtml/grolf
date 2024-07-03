@@ -14,7 +14,7 @@ export async function githubHandler(request: Request) {
         case "deleted":
             return uninstallationHandler(json);
         default:
-            console.log("Github Handler received unknown action", json.action)
+            console.log("Github Handler received unknown action", json.action, json)
             return new Response("ok", { status: 200 });
     }
 }
