@@ -24,7 +24,7 @@ export async function githubWebhookHandler(request: Request) {
     console.log("Github Webhook Handler triggered for repo", json.repository.full_name)
 
     // find user in db
-    const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.head_commit.author.login))
+    const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.pusher.name))
 
     if (user.length !== 0) {
         // send the commits to the thread
@@ -37,7 +37,7 @@ export async function githubWebhookHandler(request: Request) {
                     type: "section",
                     text: {
                         type: "mrkdwn",
-                        text: `<${json.head_commit.url}|${json.head_commit.author.login} committed \`${json.head_commit.message}\`> on <${json.repository.html_url}|${json.repository.full_name}>`
+                        text: `<${json.head_commit.url}|${json.pusher.name} committed \`${json.head_commit.message}\`> on <${json.repository.html_url}|${json.repository.full_name}>`
                     }
                 }
             ]
