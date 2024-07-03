@@ -2,6 +2,8 @@ import { SlackApp } from "slack-edge";
 import { blog } from "./utils/Logger";
 import { t } from "./lib/template";
 
+import * as features from "./features/index";
+
 const version = require('./package.json').version
 
 console.log("----------------------------------\nGrolf Server\n----------------------------------\n")
@@ -18,8 +20,15 @@ const slackApp = new SlackApp({
     },
     startLazyListenerAfterAck: true
 });
-
 const slackClient = slackApp.client;
+
+console.log(`⚒️  Loading ${Object.entries(features).length} features...`);
+for (const [feature, handler] of Object.entries(features)) {
+    console.log(`📦 ${feature} loaded`);
+    if (typeof handler === "function") {
+        handler();
+    }
+}
 
 console.log(`🚀 Server Started in ${Bun.nanoseconds() / 1000000} milliseconds on version: ${version}!\n\n----------------------------------\n`,)
 
