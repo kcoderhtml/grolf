@@ -22,15 +22,14 @@ const fetch = async (
                     trigger_id: payload.trigger_id,
                     view: {
                         type: "modal",
-                        callback_id: "fetch",
                         title: {
                             type: "plain_text",
                             text: "Fetch Data",
                             emoji: true
                         },
-                        submit: {
+                        close: {
                             type: "plain_text",
-                            text: "Fetch",
+                            text: "Cancel (grolf sad)",
                             emoji: true
                         },
                         blocks: [
@@ -38,21 +37,20 @@ const fetch = async (
                             { type: "divider" },
                             { type: "section", text: { type: "mrkdwn", text: "Can you please enter your :github: user name? my friends :octocat: and :grolf-bg: need it to send your git scraps yourway" } },
                             {
+                                dispatch_action: true,
                                 type: "input",
-                                block_id: "fetch",
-                                label: {
-                                    type: "plain_text",
-                                    text: "User Name",
-                                    emoji: true
-                                },
                                 element: {
                                     type: "plain_text_input",
-                                    action_id: "fetch",
+                                    action_id: "fetchGithub",
                                     placeholder: {
                                         type: "plain_text",
                                         text: "Enter your :beautiful: user name",
                                         emoji: true
                                     }
+                                },
+                                label: {
+                                    type: "plain_text",
+                                    text: "Your Username",
                                 }
                             }
                         ]
