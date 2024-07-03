@@ -3,7 +3,7 @@ import { db } from "../db/index";
 import * as schema from "../db/schema";
 
 import { t } from "../lib/template";
-import clog, { blog } from "../utils/Logger";
+import { clog } from "../utils/Logger";
 import { like } from "drizzle-orm";
 
 const fetch = async (
