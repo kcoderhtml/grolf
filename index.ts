@@ -63,8 +63,6 @@ export default {
                 return slackApp.run(request);
             case "/gh":
                 return await githubHandler(request);
-            case "/gh-webhook":
-                return await githubWebhookHandler(request);
             default:
                 return new Response("404 Not Found", { status: 404 });
         }

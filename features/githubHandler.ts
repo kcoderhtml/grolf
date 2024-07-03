@@ -8,6 +8,9 @@ export async function githubHandler(request: Request) {
     const json = await request.json();
     console.log("Github Handler triggered with action", json.action)
 
+    if (json.ref !== undefined && json.before !== undefined && json.after !== undefined) {
+        return await githubWebhookHandler(json);
+    }
     switch (json.action) {
         case "created":
             return installationHandler(json);
@@ -19,8 +22,7 @@ export async function githubHandler(request: Request) {
     }
 }
 
-export async function githubWebhookHandler(request: Request) {
-    const json = await request.json();
+export async function githubWebhookHandler(json: any) {
     console.log("Github Webhook Handler triggered for repo", json.repository.full_name)
 
     // find user in db
@@ -90,7 +92,7 @@ async function uninstallationHandler(json: any) {
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.installation.account.login))
 
-    if (user.length > 0) { // delete user if found
+    if (user.length > 0 && user[0].installed === 2) { // delete user if found
         await db.delete(schema.users).where(like(schema.users.githubUser, json.installation.account.login)).execute();
     }
 
