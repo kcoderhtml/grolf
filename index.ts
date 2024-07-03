@@ -1,5 +1,6 @@
 import { SlackApp } from "slack-edge";
-import { slog, clog, blog } from "./utils/Logger";
+import { blog } from "./utils/Logger";
+import { t } from "./lib/template";
 
 const version = require('./package.json').version
 
@@ -20,8 +21,13 @@ const slackApp = new SlackApp({
 
 const slackClient = slackApp.client;
 
-blog(`🚀 Server Started in ${Bun.nanoseconds() / 1000000} milliseconds on version: ${version}!`, "start")
-console.log("\n----------------------------------\n")
+console.log(`🚀 Server Started in ${Bun.nanoseconds() / 1000000} milliseconds on version: ${version}!\n\n----------------------------------\n`,)
+
+blog(t("app.startup", {
+    environment: process.env.NODE_ENV
+}), "start")
+
+console.log()
 
 // run main app here
 export default {

@@ -21,6 +21,7 @@
     "bottleneck": "^2.19.5",
     "colors": "^1.4.0",
     "slack-edge": "^0.13.3",
-    "typescript-queue": "^1.0.2"
+    "typescript-queue": "^1.0.2",
+    "yaml": "^2.4.5"
   }
 }

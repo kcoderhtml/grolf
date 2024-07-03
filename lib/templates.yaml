@@ -1,0 +1,4 @@
+app:
+  startup:
+    - "What'da know? I AM ALIVE! :heart-eng: :robot_face: and running in the env *${environment}*! :tada:"
+    - whoa! hey there! im functional ig... check me out in the env *${environment}*!
