@@ -1,22 +1,26 @@
 {
-	"name": "grolf",
-	"module": "index.ts",
-	"type": "module",
-	"version": "0.0.1",
-	"description": "A simple, fast, and lightweight arcade helper.",
-	"main": "index.ts",
-	"scripts": {
-		"dev": "bun run --watch index.ts",
-		"build": "bun build --compile --minify --sourcemap ./index.ts --outfile ./dist/grolf",
-		"ngrok": "ngrok http 3000 --domain=casual-renewing-reptile.ngrok-free.app"
-	},
-	"devDependencies": {
-		"@types/bun": "latest"
-	},
-	"peerDependencies": {
-		"typescript": "^5.0.0"
-	},
-	"dependencies": {
-		"slack-edge": "^0.13.3"
-	}
+  "name": "grolf",
+  "module": "index.ts",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "A simple, fast, and lightweight arcade helper.",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "bun run --watch index.ts",
+    "build": "bun build --compile --minify --sourcemap ./index.ts --outfile ./dist/grolf",
+    "ngrok": "ngrok http 3000 --domain=casual-renewing-reptile.ngrok-free.app"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "async": "^3.2.5",
+    "bottleneck": "^2.19.5",
+    "colors": "^1.4.0",
+    "slack-edge": "^0.13.3",
+    "typescript-queue": "^1.0.2"
+  }
 }

@@ -1,4 +1,5 @@
 import { SlackApp } from "slack-edge";
+import { slog, clog, blog } from "./utils/Logger";
 
 const version = require('./package.json').version
 
@@ -8,7 +9,7 @@ console.log("📦 Loading Slack App...")
 console.log("🔑 Loading environment variables...")
 
 // do loading stuff here
-const app = new SlackApp({
+const slackApp = new SlackApp({
     env: {
         SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN!,
         SLACK_SIGNING_SECRET: process.env.SLACK_SIGNING_SECRET!,
@@ -17,7 +18,10 @@ const app = new SlackApp({
     startLazyListenerAfterAck: true
 });
 
-console.log("🚀 Server Started in", Bun.nanoseconds() / 1000000, "milliseconds on version:", version + "!", "\n\n----------------------------------\n")
+const slackClient = slackApp.client;
+
+blog(`🚀 Server Started in ${Bun.nanoseconds() / 1000000} milliseconds on version: ${version}!`, "start")
+console.log("\n----------------------------------\n")
 
 // run main app here
 export default {
@@ -32,9 +36,11 @@ export default {
             case "/health":
                 return new Response("OK");
             case "/slack":
-                return app.run(request);
+                return slackApp.run(request);
             default:
                 return new Response("404 Not Found", { status: 404 });
         }
     },
 };
+
+export { slackApp, slackClient };
