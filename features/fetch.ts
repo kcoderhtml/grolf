@@ -17,6 +17,9 @@ const fetch = async (
             if (user.length === 0) {
                 clog(`User not found in DB: ${payload.user.id}`, "error");
 
+                const user = await context.client.users.info({ user: payload.user.id })
+                await db.insert(schema.users).values({ userName: user.user!.name, userID: payload.user.id, installed: 0, threadTS: payload.action_ts }).execute();
+
                 // send a view to the user
                 await context.client.views.open({
                     trigger_id: payload.trigger_id,
@@ -57,6 +60,34 @@ const fetch = async (
                     }
                 });
                 return;
+            } else {
+                clog(`User found in DB: ${payload.user.id}`, "info");
+
+                // update thread ts
+                await db.update(schema.users).set({ threadTS: payload.action_ts }).where(like(schema.users.userID, payload.user.id)).execute();
+
+                // send a view to the user
+                await context.client.views.open({
+                    trigger_id: payload.trigger_id,
+                    view: {
+                        type: "modal",
+                        title: {
+                            type: "plain_text",
+                            text: "Fetch Data",
+                            emoji: true
+                        },
+                        close: {
+                            type: "plain_text",
+                            text: "Cancel (grolf sad)",
+                            emoji: true
+                        },
+                        blocks: [
+                            { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.success", { user_id: payload.user.id }) }] },
+                            { type: "divider" },
+                            { type: "section", text: { type: "mrkdwn", text: "Thanks for telling Grolf about this thread!" } },
+                        ]
+                    }
+                });
             }
 
             clog(`User found in DB: ${payload.user.id}`, "info");

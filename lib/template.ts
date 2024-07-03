@@ -1,6 +1,6 @@
 import { parse } from "yaml";
 
-type template = "app.startup" | "fetch.start" | "fetch.not_found"
+type template = "app.startup" | "fetch.start" | "fetch.not_found" | "fetch.success"
 
 interface data {
     environment?: string;

@@ -22,6 +22,27 @@ export async function githubHandler(request: Request) {
 export async function githubWebhookHandler(request: Request) {
     const json = await request.json();
     console.log("Github Webhook Handler triggered for repo", json.repository.full_name)
+
+    // find user in db
+    const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.head_commit.author.login))
+
+    if (user.length !== 0) {
+        // send the commits to the thread
+        await slackClient.chat.postMessage({
+            channel: "C06SBHMQU8G",
+            thread_ts: user[0].threadTS!,
+            text: json.head_commit.message,
+            blocks: [
+                {
+                    type: "section",
+                    text: {
+                        type: "mrkdwn",
+                        text: `<${json.head_commit.url}|${json.head_commit.author.login} committed \`${json.head_commit.message}\`> on <${json.repository.html_url}|${json.repository.full_name}>`
+                    }
+                }
+            ]
+        })
+    }
     return new Response("ok", { status: 200 });
 }
 
@@ -55,6 +76,8 @@ async function installationHandler(json: any) {
             ]
         }
     })
+
+    await db.update(schema.users).set({ installed: 2 }).where(like(schema.users.userID, json.installation.account.login)).execute();
 
     return new Response("ok", { status: 200 });
 }

@@ -6,5 +6,6 @@ export const users = sqliteTable("users", {
     userName: text("user_name"),
     viewID: text("view_id"),
     githubUser: text("github_user"),
-    installed: integer("installed")
+    installed: integer("installed"),
+    threadTS: text("thread_ts"),
 });
