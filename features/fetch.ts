@@ -76,7 +76,7 @@ const fetchAction = async (
                 } else {
                     // update thread ts
                     // @ts-expect-error
-                    await db.update(schema.users).set({ threadTS: payload.message.thread_ts }).where(like(schema.users.userID, payload.user.id)).execute();
+                    await db.update(schema.users).set({ threadTS: payload.message.thread_ts, expireTime, arcadeSessionDone }).where(like(schema.users.userID, payload.user.id)).execute();
 
                     // send a view to the user
                     await context.client.views.open({
@@ -90,7 +90,7 @@ const fetchAction = async (
                             },
                             close: {
                                 type: "plain_text",
-                                text: "Cancel (grolf sad)",
+                                text: "Back to the thread",
                                 emoji: true
                             },
                             blocks: [
