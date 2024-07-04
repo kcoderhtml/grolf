@@ -6,7 +6,6 @@ import { blog } from "../utils/Logger";
 
 export async function githubHandler(request: Request) {
     const json = await request.json();
-    console.log("Github Handler triggered with action", json.action)
 
     if (json.ref !== undefined && json.before !== undefined && json.after !== undefined) {
         return await githubWebhookHandler(json);
