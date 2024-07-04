@@ -28,7 +28,7 @@ export async function githubWebhookHandler(json: any) {
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, (json.pusher.name as string).trim()))
 
-    if (user.length !== 0 && user[0].installed === 2 && user[0].threadTS && (user[0].expireTime! - Date.now() > 0)) {
+    if (user.length !== 0 && user[0].installed === 2 && user[0].threadTS && (user[0].expireTime! - Date.now()) > 0) {
         console.log("Sending commit to thread:", user[0].threadTS)
         // send the commits to the thread
         await slackClient.chat.postMessage({
