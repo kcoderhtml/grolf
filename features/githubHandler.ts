@@ -46,7 +46,7 @@ export async function githubWebhookHandler(json: any) {
             ]
         })
     } else {
-        blog(`No user found for commit: ${json.pusher.name} on ${json.repository.full_name} or arcade session expired! time till finished: ${user[0].expireTime} - ${- Date.now()}`, "error")
+        blog(`No user found for commit: ${json.pusher.name} on ${json.repository.full_name} or arcade session expired! time till finished: ${user[0].expireTime! - Date.now()}`, "error")
     }
     return new Response("ok", { status: 200 });
 }
