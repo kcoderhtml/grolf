@@ -16,14 +16,17 @@ export async function githubHandler(request: Request) {
             return installationHandler(json);
         case "deleted":
             return uninstallationHandler(json);
+        case "added":
+            blog(`User ${json.sender.login} added Grolf to ${json.repository.full_name}!`, "info")
+            return new Response("ok", { status: 200 });
         default:
-            console.log("Github Handler received unknown action", json.action, json)
+            blog(`Github Handler received unknown action: ${json.action}\n\n---\nfull json: \n---\n${JSON.stringify(json)}\n---`, "error")
             return new Response("ok", { status: 200 });
     }
 }
 
 export async function githubWebhookHandler(json: any) {
-    console.log("Github Webhook Handler triggered for repo", json.repository.full_name)
+    blog("Github Webhook Handler triggered for repo: " + json.repository.full_name, "info")
 
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, (json.pusher.name as string).trim()))
@@ -53,7 +56,7 @@ export async function githubWebhookHandler(json: any) {
 
 // installation handler
 async function installationHandler(json: any) {
-    console.log("Installation Handler for user", json.installation.account.login)
+    blog("Installation Handler for user: " + json.installation.account.login, "info")
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.installation.account.login))
 
@@ -89,12 +92,13 @@ async function installationHandler(json: any) {
 }
 
 async function uninstallationHandler(json: any) {
-    console.log("Uninstallation Handler for user", json.installation.account.login)
+    blog("Uninstallation Handler for user: " + json.installation.account.login, "info")
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.installation.account.login))
 
     if (user.length > 0 && user[0].installed === 2) { // delete user if found
         await db.delete(schema.users).where(like(schema.users.githubUser, json.installation.account.login)).execute();
+        blog(`User ${json.installation.account.login} uninstalled Grolf!`, "info")
     }
 
     return new Response("ok", { status: 200 });
