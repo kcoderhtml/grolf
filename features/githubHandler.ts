@@ -25,7 +25,7 @@ export async function githubHandler(request: Request) {
 }
 
 export async function githubWebhookHandler(json: any) {
-    blog("Github Webhook Handler triggered for repo: " + json.repository.full_name, "info")
+    blog(`Github Webhook Handler triggered for repo: ${json.repository.full_name} with commit: ${json.head_commit.message}`, "info")
 
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, (json.pusher.name as string).trim()))
