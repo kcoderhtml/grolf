@@ -13,7 +13,8 @@ const fetch = async (
         async ({ context, payload }) => {
             // first check if the message is in the arcade channel
             // @ts-expect-error
-            if (payload.message.channel !== "C06SBHMQU8G" || payload.message.bot_id !== "B077ZPZ3RB7") {
+            if (context.channelId !== "C06SBHMQU8G" || payload.message.bot_id !== "B077ZPZ3RB7") {
+                clog(`User tried to fetch data in wrong channel: ${payload.message.channel} or bot: ${payload.message.bot_id}`, "error");
                 return;
             }
 
