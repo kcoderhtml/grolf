@@ -43,7 +43,7 @@ export async function githubWebhookHandler(json: any) {
                     type: "section",
                     text: {
                         type: "mrkdwn",
-                        text: `<${json.head_commit.url}|${json.pusher.name} committed \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\`> on <${json.repository.html_url}|${json.repository.full_name}>`
+                        text: `<${json.head_commit.url}|${json.pusher.name} committed>: \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\` on <${json.repository.html_url}|${json.repository.full_name}>`
                     }
                 }
             ]
