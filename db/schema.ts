@@ -8,4 +8,6 @@ export const users = sqliteTable("users", {
     githubUser: text("github_user"),
     installed: integer("installed"),
     threadTS: text("thread_ts"),
+    expireTime: integer("expire_time"),
+    arcadeSessionDone: integer("arcade_session_done"),
 });

@@ -6,7 +6,7 @@ import { t } from "../lib/template";
 import { clog } from "../utils/Logger";
 import { like } from "drizzle-orm";
 
-const fetch = async (
+const fetchAction = async (
 ) => {
     // listen for shortcut
     slackApp.shortcut("fetch", async () => { },
@@ -14,6 +14,7 @@ const fetch = async (
             // first check if the message is in the arcade channel
             // @ts-expect-error
             if (context.channelId !== "C06SBHMQU8G" || payload.message.bot_id !== "B077ZPZ3RB7") {
+                // @ts-expect-error
                 clog(`User tried to fetch data in wrong channel: ${payload.message.channel} or bot: ${payload.message.bot_id}`, "error");
                 return;
             }
@@ -21,60 +22,87 @@ const fetch = async (
             // check if user is in db
             const user = await db.select().from(schema.users).where(like(schema.users.userID, payload.user.id))
 
-            if (user.length === 0) {
-                clog(`User not found in DB: ${payload.user.id}`, "error");
+            const expireTime = await fetch("https://hackhour.hackclub.com/api/clock/" + payload.user.id).then(res => res.text()).then(text => new Date(new Date().getTime() + (parseInt(text))).getTime())
+            const arcadeSessionDone = (expireTime - new Date().getTime()) > 0 ? 1 : 0
 
-                const user = await context.client.users.info({ user: payload.user.id })
-                // @ts-expect-error
-                await db.insert(schema.users).values({ userName: user.user!.name, userID: payload.user.id, installed: 0, threadTS: payload.message.thread_ts }).execute();
+            if (arcadeSessionDone === 1) {
+                if (user.length === 0) {
+                    clog(`User not found in DB: ${payload.user.id}`, "error");
 
-                // send a view to the user
-                await context.client.views.open({
-                    trigger_id: payload.trigger_id,
-                    view: {
-                        type: "modal",
-                        title: {
-                            type: "plain_text",
-                            text: "Fetch Data",
-                            emoji: true
-                        },
-                        close: {
-                            type: "plain_text",
-                            text: "Cancel (grolf sad)",
-                            emoji: true
-                        },
-                        blocks: [
-                            { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.not_found", { user_id: payload.user.id }) }] },
-                            { type: "divider" },
-                            { type: "section", text: { type: "mrkdwn", text: "Can you please enter your :github: user name? my friends :octocat: and :grolf-bg: need it to send your git scraps yourway" } },
-                            {
-                                dispatch_action: true,
-                                type: "input",
-                                element: {
-                                    type: "plain_text_input",
-                                    action_id: "fetchGithub",
-                                    placeholder: {
+                    const user = await context.client.users.info({ user: payload.user.id })
+                    // @ts-expect-error
+                    await db.insert(schema.users).values({ userName: user.user!.name, userID: payload.user.id, installed: 0, threadTS: payload.message.thread_ts, expireTime, arcadeSessionDone }).execute();
+
+                    // send a view to the user
+                    await context.client.views.open({
+                        trigger_id: payload.trigger_id,
+                        view: {
+                            type: "modal",
+                            title: {
+                                type: "plain_text",
+                                text: "Fetch Data",
+                                emoji: true
+                            },
+                            close: {
+                                type: "plain_text",
+                                text: "Cancel (grolf sad)",
+                                emoji: true
+                            },
+                            blocks: [
+                                { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.not_found", { user_id: payload.user.id }) }] },
+                                { type: "divider" },
+                                { type: "section", text: { type: "mrkdwn", text: "Can you please enter your :github: user name? my friends :octocat: and :grolf-bg: need it to send your git scraps yourway" } },
+                                {
+                                    dispatch_action: true,
+                                    type: "input",
+                                    element: {
+                                        type: "plain_text_input",
+                                        action_id: "fetchGithub",
+                                        placeholder: {
+                                            type: "plain_text",
+                                            text: "Enter your :beautiful: user name",
+                                            emoji: true
+                                        }
+                                    },
+                                    label: {
                                         type: "plain_text",
-                                        text: "Enter your :beautiful: user name",
-                                        emoji: true
+                                        text: "Your Username",
                                     }
-                                },
-                                label: {
-                                    type: "plain_text",
-                                    text: "Your Username",
                                 }
-                            }
-                        ]
-                    }
-                });
-                return;
+                            ]
+                        }
+                    });
+                    return;
+                } else {
+                    // update thread ts
+                    // @ts-expect-error
+                    await db.update(schema.users).set({ threadTS: payload.message.thread_ts }).where(like(schema.users.userID, payload.user.id)).execute();
+
+                    // send a view to the user
+                    await context.client.views.open({
+                        trigger_id: payload.trigger_id,
+                        view: {
+                            type: "modal",
+                            title: {
+                                type: "plain_text",
+                                text: "Fetch Data",
+                                emoji: true
+                            },
+                            close: {
+                                type: "plain_text",
+                                text: "Cancel (grolf sad)",
+                                emoji: true
+                            },
+                            blocks: [
+                                { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.success", { user_id: payload.user.id }) }] },
+                                { type: "divider" },
+                                { type: "section", text: { type: "mrkdwn", text: "Thanks for telling Grolf about this thread!" } },
+                            ]
+                        }
+                    });
+                }
             } else {
-                clog(`User found in DB: ${payload.user.id}`, "info");
-
-                // update thread ts
-                // @ts-expect-error
-                await db.update(schema.users).set({ threadTS: payload.message.thread_ts }).where(like(schema.users.userID, payload.user.id)).execute();
-
+                clog(`User's arcade session is over: ${payload.user.id}`, "info");
                 // send a view to the user
                 await context.client.views.open({
                     trigger_id: payload.trigger_id,
@@ -93,14 +121,13 @@ const fetch = async (
                         blocks: [
                             { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.success", { user_id: payload.user.id }) }] },
                             { type: "divider" },
-                            { type: "section", text: { type: "mrkdwn", text: "Thanks for telling Grolf about this thread!" } },
+                            { type: "section", text: { type: "mrkdwn", text: "Thanks for telling Grolf about this thread! Unfortunately, this arcade session is already over. Please try a current one." } },
                         ]
                     }
                 });
             }
-
-            clog(`User found in DB: ${payload.user.id}`, "info");
-        });
+        }
+    );
 }
 
-export default fetch;
+export default fetchAction;
