@@ -58,9 +58,10 @@ async function installationHandler(json: any) {
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.installation.account.login))
 
     if (user.length === 0 || user[0].viewID === undefined) {
-        // create user
         blog(`User ${json.installation.account.login} installed Grolf! but not in database yet!`, "error")
+        return new Response("ok", { status: 200 });
     }
+
     await slackClient.views.update({
         view_id: user[0].viewID!,
         view: {
@@ -82,7 +83,7 @@ async function installationHandler(json: any) {
         }
     })
 
-    await db.update(schema.users).set({ installed: 2 }).where(like(schema.users.userID, json.installation.account.login)).execute();
+    await db.update(schema.users).set({ installed: 2 }).where(like(schema.users.githubUser, json.installation.account.login)).execute();
 
     return new Response("ok", { status: 200 });
 }
