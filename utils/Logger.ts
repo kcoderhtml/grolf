@@ -24,7 +24,7 @@ async function slog(logMessage: string, location?: {
     const message: ChatPostMessageRequest = {
         channel: location?.channel || process.env.SLACK_LOG_CHANNEL!,
         thread_ts: location?.thread_ts,
-        text: logMessage,
+        text: logMessage.substring(0, 2500),
         blocks: [
             {
                 type: "section",
