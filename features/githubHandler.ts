@@ -29,6 +29,8 @@ export async function githubWebhookHandler(json: any) {
     // check if the push is a commit or a release
     if ((json.ref as string).startsWith("refs/tags/")) {
         blog(`Github Webhook Handler triggered for repo: ${json.repository.full_name} with tag: \`${(json.ref as string).split("/")[2]}\``, "info")
+    } else {
+        blog(`Github Webhook Handler triggered for repo: ${json.repository.full_name} with commit: ${json.head_commit.id}`, "info")
     }
 
     // find user in db
