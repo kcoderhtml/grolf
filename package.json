@@ -2,7 +2,7 @@
 	"name": "grolf",
 	"module": "index.ts",
 	"type": "module",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "A simple, fast, and lightweight arcade helper.",
 	"main": "index.ts",
 	"scripts": {
