@@ -14,6 +14,7 @@ FROM base AS release
 COPY --from=build /temp/prod/dist/grolf .
 COPY --from=build /temp/prod/package.json .
 COPY --from=build /temp/prod/lib/templates.yaml ./lib/templates.yaml
+COPY --from=build /temp/prod/drizzle ./drizzle
 RUN chown -R bun:bun .
 RUN mkdir db && chown -R bun:bun db
 

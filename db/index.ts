@@ -1,5 +1,9 @@
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { Database } from "bun:sqlite";
+import { migrate } from "drizzle-orm/bun-sqlite/migrator";
+
 
 const sqlite = new Database("db/users.db");
-export const db = drizzle(sqlite);
+const db = drizzle(sqlite);
+await migrate(db, { migrationsFolder: "./drizzle" });
+export { db };
