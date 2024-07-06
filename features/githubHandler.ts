@@ -10,6 +10,7 @@ export async function githubHandler(request: Request) {
     if (json.ref !== undefined && json.before !== undefined && json.after !== undefined) {
         return await githubWebhookHandler(json);
     }
+
     switch (json.action) {
         case "created":
             return installationHandler(json);
@@ -25,7 +26,10 @@ export async function githubHandler(request: Request) {
 }
 
 export async function githubWebhookHandler(json: any) {
-    blog(`Github Webhook Handler triggered for repo: ${json.repository.full_name} with commit: \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``, "info")
+    // check if the push is a commit or a release
+    if ((json.ref as string).startsWith("refs/tags/")) {
+        blog(`Github Webhook Handler triggered for repo: ${json.repository.full_name} with tag: \`${(json.ref as string).split("/")[2]}\``, "info")
+    }
 
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, (json.pusher.name as string).trim()))
@@ -41,7 +45,7 @@ export async function githubWebhookHandler(json: any) {
                     type: "section",
                     text: {
                         type: "mrkdwn",
-                        text: `<${json.head_commit.url}|${json.pusher.name} committed:> \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\` on <${json.repository.html_url}|${json.repository.full_name}>`
+                        text: `<${json.head_commit.url}|${json.pusher.name} ${(json.ref as string).startsWith("refs/tags/") ? `released new version <${json.repository.html_url}/releases/tags/${(json.ref as string).split("/")[2]}|${(json.ref as string).split("/")[2]}>` : `committed:> \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``} on <${json.repository.html_url}|${json.repository.full_name}>`
                     }
                 }
             ]
