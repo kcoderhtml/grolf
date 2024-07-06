@@ -9,3 +9,5 @@ LICENSE
 .vscode
 .env
 data
+.github
+db/users.db

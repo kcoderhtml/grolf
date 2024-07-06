@@ -7,18 +7,14 @@ WORKDIR /usr/src/app
 FROM base AS build
 RUN mkdir -p /temp/prod
 COPY . /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile --production && bun run build
+RUN cd /temp/prod && bun install --frozen-lockfile --production
 
 # copy production build to release image
 FROM base AS release
-COPY --from=build /temp/prod/dist/grolf .
-COPY --from=build /temp/prod/package.json .
-COPY --from=build /temp/prod/lib/templates.yaml ./lib/templates.yaml
-COPY --from=build /temp/prod/drizzle ./drizzle
+COPY --from=build /temp/prod/. .
 RUN chown -R bun:bun .
-RUN mkdir db && chown -R bun:bun db
 
 # run the app
 USER bun
 EXPOSE 3000/tcp
-ENTRYPOINT [ "./grolf" ]
+ENTRYPOINT [ "bun", "run", "index.ts" ]
