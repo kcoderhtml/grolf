@@ -7,8 +7,12 @@ import { blog } from "../utils/Logger";
 export async function githubHandler(request: Request) {
     const json = await request.json();
 
-    if (json.ref !== undefined && json.before !== undefined && json.after !== undefined && json.after !== "0000000000000000000000000000000000000000") {
-        return await githubWebhookHandler(json);
+    if (json.ref !== undefined && json.before !== undefined && json.after !== undefined) {
+        if (json.after !== "0000000000000000000000000000000000000000") {
+            return await githubWebhookHandler(json);
+        } else {
+            return new Response("ok", { status: 200 });
+        }
     }
 
     switch (json.action) {
