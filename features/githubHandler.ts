@@ -41,7 +41,7 @@ export async function githubWebhookHandler(json: any) {
         await slackClient.chat.postMessage({
             channel: "C06SBHMQU8G",
             thread_ts: user[0].threadTS!,
-            text: (json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", ""),
+            text: (json.ref as string).startsWith("refs/tags/") ? `released new version:> \`${(json.ref as string).split("/")[2]}\`` : `committed:> \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``,
             blocks: [
                 {
                     type: "section",
