@@ -47,7 +47,7 @@ export async function githubWebhookHandler(json: any) {
                     type: "section",
                     text: {
                         type: "mrkdwn",
-                        text: `<${json.head_commit.url}|${json.pusher.name} ${(json.ref as string).startsWith("refs/tags/") ? `released new version <${json.repository.html_url}/releases/tags/${(json.ref as string).split("/")[2]}|${(json.ref as string).split("/")[2]}>` : `committed:> \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``} on <${json.repository.html_url}|${json.repository.full_name}>`
+                        text: `<${json.head_commit.url}|${json.pusher.name} ${(json.ref as string).startsWith("refs/tags/") ? `released new version:> \`${(json.ref as string).split("/")[2]}\`` : `committed:> \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``} on <${json.repository.html_url}|${json.repository.full_name}>`
                     }
                 }
             ]
