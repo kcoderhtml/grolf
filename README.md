@@ -1,6 +1,6 @@
 # grolf
 
-Your friendly lightweight arcade helper written in Bun
+Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
 
 ## Prerequisites
 You need a slack app with the following manifest
