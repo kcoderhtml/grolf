@@ -40,24 +40,29 @@ export async function githubWebhookHandler(json: any) {
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, (json.pusher.name as string).trim()))
 
-    if (user.length !== 0 && user[0].installed === 2 && user[0].threadTS && (user[0].expireTime! - Date.now()) > 0) {
-        // send the commits to the thread
-        await slackClient.chat.postMessage({
-            channel: "C06SBHMQU8G",
-            thread_ts: user[0].threadTS!,
-            text: (json.ref as string).startsWith("refs/tags/") ? `released new version: ${(json.ref as string).split("/")[2]}` : `committed: ${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}`,
-            blocks: [
-                {
-                    type: "section",
-                    text: {
-                        type: "mrkdwn",
-                        text: `<${(json.ref as string).startsWith("refs/tags/") ? `${json.repository.html_url}/releases/tag/${(json.ref as string).split("/")[2]}` : json.head_commit.url}|${json.pusher.name} ${(json.ref as string).startsWith("refs/tags/") ? `released new version:> \`${(json.ref as string).split("/")[2]}\`` : `committed:> \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``} on <${json.repository.html_url}|${json.repository.full_name}>`
+    if (user.length !== 0 && user[0].installed === 2 && user[0].threadTS) {
+        if (user[0].expireTime! > Date.now()) {
+
+            // send the commits to the thread
+            await slackClient.chat.postMessage({
+                channel: "C06SBHMQU8G",
+                thread_ts: user[0].threadTS!,
+                text: (json.ref as string).startsWith("refs/tags/") ? `released new version: ${(json.ref as string).split("/")[2]}` : `committed: ${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}`,
+                blocks: [
+                    {
+                        type: "section",
+                        text: {
+                            type: "mrkdwn",
+                            text: `<${(json.ref as string).startsWith("refs/tags/") ? `${json.repository.html_url}/releases/tag/${(json.ref as string).split("/")[2]}` : json.head_commit.url}|${json.pusher.name} ${(json.ref as string).startsWith("refs/tags/") ? `released new version:> \`${(json.ref as string).split("/")[2]}\`` : `committed:> \`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``} on <${json.repository.html_url}|${json.repository.full_name}>`
+                        }
                     }
-                }
-            ]
-        })
+                ]
+            })
+        } else {
+            blog(`Arcade session expired for <@${user[0].userID}>! time till finished: ${user[0].expireTime! - Date.now()}`, "error")
+        }
     } else {
-        blog(`No user found for commit: ${json.pusher.name} on ${json.repository.full_name} or arcade session expired! time till finished: ${user[0].expireTime! - Date.now()}`, "error")
+        blog(`No user found / not properly installed for commit: ${json.pusher.name} on ${json.repository.full_name}`, "error")
     }
     return new Response("ok", { status: 200 });
 }
