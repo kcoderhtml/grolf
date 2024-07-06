@@ -175,4 +175,4 @@ dist
 .DS_Store
 
 dist
-db/users.db
+data

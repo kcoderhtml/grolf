@@ -13,6 +13,7 @@ RUN cd /temp/prod && bun install --frozen-lockfile --production
 FROM base AS release
 COPY --from=build /temp/prod/. .
 RUN chown -R bun:bun .
+RUN mkdir data && chown -R bun:bun data
 
 # run the app
 USER bun
