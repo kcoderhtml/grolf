@@ -1,0 +1,13 @@
+name: grolf
+services:
+  server:
+    ports:
+      - 3000:3000
+    image: kcoderhtml/grolf:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - SLACK_BOT_TOKEN=xoxb-
+      - SLACK_SIGNING_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - SLACK_LOG_CHANNEL=C0123456789
+    init: true
