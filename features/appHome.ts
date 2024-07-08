@@ -157,6 +157,16 @@ export async function getSettingsMenuBlocks(
             },
         },
         {
+            type: "divider"
+        },
+        {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: `:blobby-imp: Users: \n\n${users.map((user) => `<@${user.userID}>`).join(" ")}`,
+            },
+        },
+        {
             type: "divider",
         },
         {
