@@ -12,3 +12,9 @@ fetch:
   success:
     - "I'm listening to this thread <@${user_id}>! :tada:"
     - "I've taken up residence in your thread <@${user_id}>! :robot_face: :tada:"
+  expired:
+    - "I'm sorry <@${user_id}>, but your session has expired... :sob:"
+    - "<@${user_id}>, you should really consider making a new session :tw_admission_tickets: :flyingmoney:"
+    - "Your session has expired <@${user_id}>... :sob:"
+    - "Why did you send me here <@${user_id}>? Your session has expired... :sob:"
+    - "You cruel person <@${user_id}>... you let your session expire... :sob:"

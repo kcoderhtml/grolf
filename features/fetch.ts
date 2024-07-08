@@ -109,7 +109,7 @@ const fetchAction = async (
                         blocks: [
                             { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.success", { user_id: payload.user.id }) }] },
                             { type: "divider" },
-                            { type: "section", text: { type: "mrkdwn", text: "Thanks for telling Grolf about this thread! Unfortunately, this arcade session is already over. Please try a current one." } },
+                            { type: "section", text: { type: "mrkdwn", text: t("fetch.expired", { user_id: payload.user.id }) } },
                         ]
                     }
                 });
