@@ -101,7 +101,7 @@ export async function getSettingsMenuBlocks(
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: `:blobby-bar_chart: Analytics:\n\nTotal Users: ${users.length} messages`,
+                text: `:blobby-bar_chart: Analytics:\n\nTotal Users: ${users.length}`,
             },
         },
         // {
