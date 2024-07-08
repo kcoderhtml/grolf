@@ -105,9 +105,9 @@ const fetchAction = async (
                             emoji: true
                         },
                         blocks: [
-                            { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.success", { user_id: payload.user.id }) }] },
+                            { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.expired", { user_id: payload.user.id }) }] },
                             { type: "divider" },
-                            { type: "section", text: { type: "mrkdwn", text: t("fetch.expired", { user_id: payload.user.id }) } },
+                            { type: "section", text: { type: "mrkdwn", text: "plz do select a proper session" } },
                         ]
                     }
                 });
