@@ -43,7 +43,6 @@ export async function githubWebhookHandler(json: any) {
 
     if (user.length !== 0 && user[0].installed === 2 && user[0].threadTS) {
         if (user[0].expireTime! > Date.now()) {
-
             const normalmessage = t("commit.normal", { commit_url: json.head_commit.url, repo_url: `<${json.repository.html_url}|${json.repository.full_name}>`, commit_message: `\`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``, user_id: user[0].userID! })
             const releasemessage = `<${json.repository.html_url}/releases/tag/${(json.ref as string).split("/")[2]}|${json.pusher.name} released new version:> ${(json.ref as string).split("/")[2]} on <${json.repository.html_url}|${json.repository.full_name}>`
 
@@ -57,7 +56,7 @@ export async function githubWebhookHandler(json: any) {
                         type: "section",
                         text: {
                             type: "mrkdwn",
-                            text: `<${(json.ref as string).startsWith("refs/tags/") ? releasemessage : normalmessage}`
+                            text: `${(json.ref as string).startsWith("refs/tags/") ? releasemessage : normalmessage}`
                         }
                     }
                 ]
