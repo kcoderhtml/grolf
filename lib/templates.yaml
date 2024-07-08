@@ -18,3 +18,8 @@ fetch:
     - "Your session has expired <@${user_id}>... :sob:"
     - "Why did you send me here <@${user_id}>? Your session has expired... :sob:"
     - "You cruel person <@${user_id}>... you let your session expire... :sob:"
+commit:
+  normal:
+    - "Umrnph; why did you wake me up <@${user_id}>? :robot_face: :sleeping: I was in the middle of a dream... :zzz:\nAnyway, <${commit-url}|I've committed your data!> :tada: the pixie that woke me said its from ${repo_url}... :sparkles:"
+    - "I've committed your data <@${user_id}>! :tada: :robot_face: :sparkles: <${commit-url}|Check it out!> :sparkles: your data is now in ${repo_url}... :sparkles:"
+    - "Hey there! I'm going to bother you because you committed some data! :robot_face: :tada: <${commit-url}|Check it out!> :sparkles: your data is now in ${repo_url} <@${user_id}>... :sparkles:\n${commit_message}"
