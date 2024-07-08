@@ -78,27 +78,15 @@ const fetchAction = async (
                     // @ts-expect-error
                     await db.update(schema.users).set({ threadTS: payload.message.thread_ts, expireTime, arcadeSessionDone }).where(like(schema.users.userID, payload.user.id)).execute();
 
-                    // send a view to the user
-                    await context.client.views.open({
-                        trigger_id: payload.trigger_id,
-                        view: {
-                            type: "modal",
-                            title: {
-                                type: "plain_text",
-                                text: "Fetch Data",
-                                emoji: true
-                            },
-                            close: {
-                                type: "plain_text",
-                                text: "Back to the thread",
-                                emoji: true
-                            },
-                            blocks: [
-                                { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.success", { user_id: payload.user.id }) }] },
-                                { type: "divider" },
-                                { type: "section", text: { type: "mrkdwn", text: "Thanks for telling Grolf about this thread!" } },
-                            ]
-                        }
+                    console.log(payload)
+
+                    // send a message in the thread
+                    await context.client.chat.postMessage({
+                        // @ts-expect-error
+                        channel: payload.channel.id,
+                        // @ts-expect-error
+                        thread_ts: payload.message.thread_ts,
+                        text: t("fetch.success", { user_id: payload.user.id })
                     });
                 }
             } else {

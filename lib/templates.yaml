@@ -10,5 +10,5 @@ fetch:
     - "I couldn't find any data for <@${user_id}>... :sob:"
     - "I'm sorry <@${user_id}>, I couldn't find any data for you... :sob:"
   success:
-    - "I've fetched the data for <@${user_id}>! :tada:"
-    - "I've successfully fetched the data for <@${user_id}>! :tada:"
+    - "I'm listening to this thread <@${user_id}>! :tada:"
+    - "I've taken up residence in your thread <@${user_id}>! :robot_face: :tada:"
