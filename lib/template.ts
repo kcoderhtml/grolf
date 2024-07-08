@@ -1,6 +1,6 @@
 import { parse } from "yaml";
 
-type template = "app.startup" | "fetch.start" | "fetch.not_found" | "fetch.success" | "fetch.expired" | "commit.normal"
+type template = "app.startup" | "fetch.start" | "fetch.not_found" | "fetch.success" | "fetch.expired" | "commit.normal" | "commit.release"
 
 interface data {
     environment?: string;
@@ -8,6 +8,8 @@ interface data {
     commit_url?: string;
     repo_url?: string;
     commit_message?: string;
+    release_url?: string;
+    release_tag?: string;
 }
 
 const file = await Bun.file("lib/templates.yaml").text();
