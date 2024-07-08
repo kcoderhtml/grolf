@@ -14,7 +14,7 @@ export const users = sqliteTable("users", {
 
 export const analytics = sqliteTable("analytics", {
     id: integer("id").primaryKey(),
-    day: text("day"),
+    day: text("day").unique(),
     totalCommits: integer("total_commits"),
     totalReleases: integer("total_releases"),
     newUsers: integer("new_users"),
