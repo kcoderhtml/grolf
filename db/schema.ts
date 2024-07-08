@@ -11,3 +11,11 @@ export const users = sqliteTable("users", {
     expireTime: integer("expire_time"),
     arcadeSessionDone: integer("arcade_session_done"),
 });
+
+export const analytics = sqliteTable("analytics", {
+    id: integer("id").primaryKey(),
+    day: text("day"),
+    totalCommits: integer("total_commits"),
+    totalReleases: integer("total_releases"),
+    newUsers: integer("new_users"),
+});

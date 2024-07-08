@@ -31,8 +31,9 @@ export async function githubHandler(request: Request) {
 }
 
 export async function githubWebhookHandler(json: any) {
+    const isRelease = (json.ref as string).startsWith("refs/tags/")
     // check if the push is a commit or a release
-    if ((json.ref as string).startsWith("refs/tags/")) {
+    if (isRelease) {
         blog(`Github Webhook Handler triggered for repo: ${json.repository.full_name} with tag: \`${(json.ref as string).split("/")[2]}\``, "info")
     } else {
         blog(`Github Webhook Handler triggered for repo: ${json.repository.full_name} with commit: \`${json.head_commit.id}\``, "info")
@@ -50,17 +51,26 @@ export async function githubWebhookHandler(json: any) {
             await slackClient.chat.postMessage({
                 channel: "C06SBHMQU8G",
                 thread_ts: user[0].threadTS!,
-                text: (json.ref as string).startsWith("refs/tags/") ? `released new version: ` : `committed: ${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}`,
+                text: isRelease ? `released new version: ` : `committed: ${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}`,
                 blocks: [
                     {
                         type: "section",
                         text: {
                             type: "mrkdwn",
-                            text: `${(json.ref as string).startsWith("refs/tags/") ? releasemessage : normalmessage}`
+                            text: `${isRelease ? releasemessage : normalmessage}`
                         }
                     }
                 ]
             })
+
+            // update analytics
+            const day = new Date().toISOString().split("T")[0] + "T00:00:00.000Z"
+            const analytics = await db.select().from(schema.analytics).where(like(schema.analytics.day, day)).execute();
+            if (analytics.length === 0) {
+                await db.insert(schema.analytics).values({ day, newUsers: 0, totalCommits: isRelease ? 0 : 1, totalReleases: isRelease ? 1 : 0 }).execute();
+            } else {
+                await db.update(schema.analytics).set({ totalCommits: analytics[0].totalCommits! + (isRelease ? 0 : 1), totalReleases: analytics[0].totalReleases! + (isRelease ? 1 : 0) }).where(like(schema.analytics.day, day)).execute();
+            }
         } else {
             blog(`Arcade session expired for <@${user[0].userID}>! time till finished: ${user[0].expireTime! - Date.now()}`, "error")
         }
@@ -103,6 +113,14 @@ async function installationHandler(json: any) {
     })
 
     await db.update(schema.users).set({ installed: 2 }).where(like(schema.users.githubUser, json.installation.account.login)).execute();
+    // create a new analytics entry if it doesn't exist
+    const day = new Date().toISOString().split("T")[0] + "T00:00:00.000Z"
+    const analytics = await db.select().from(schema.analytics).where(like(schema.analytics.day, day)).execute();
+    if (analytics.length === 0) {
+        await db.insert(schema.analytics).values({ day, newUsers: 1, totalCommits: 0, totalReleases: 0 }).execute();
+    } else {
+        await db.update(schema.analytics).set({ newUsers: analytics[0].newUsers! + 1 }).where(like(schema.analytics.day, day)).execute();
+    }
 
     return new Response("ok", { status: 200 });
 }
