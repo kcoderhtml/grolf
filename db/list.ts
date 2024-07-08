@@ -1,6 +1,9 @@
 import { db } from "./index";
 import * as schema from "./schema";
 
-const users = await db.select().from(schema.users).all();
-
-console.log(users)
+// for each key in schema, print the table name
+for (const key in schema) {
+    // @ts-expect-error
+    const table = await db.select().from(schema[key]).execute();
+    console.log(table)
+}
