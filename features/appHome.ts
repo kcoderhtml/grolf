@@ -4,6 +4,7 @@ import * as schema from "../db/schema";
 
 import { blog } from "../utils/Logger";
 import type { AnyHomeTabBlock } from "slack-edge";
+import barChartGenerator from "../lib/barChart";
 
 const appHome = async (
 ) => {
@@ -84,6 +85,7 @@ export async function getSettingsMenuBlocks(
     }
 
     const users = await db.select().from(schema.users).all();
+    const analytics = await db.select().from(schema.analytics).all().sort((a, b) => b.day!.localeCompare(a.day!));
 
     // update the home tab
     return [
@@ -104,18 +106,42 @@ export async function getSettingsMenuBlocks(
                 text: `:blobby-bar_chart: Analytics:\n\nTotal Users: ${users.length}`,
             },
         },
-        // {
-        //     type: "section",
-        //     text: {
-        //         type: "mrkdwn",
-        //         text: `Messages Sent Over the Last 5 Days:\n\n${barChartGenerator(
-        //             analytics.slice(0, 5).map((analytics) => analytics.totalSyncedMessages), 5,
-        //             analytics.slice(0, 5).map((analytics) => new Date(analytics.day).toLocaleDateString("en-US", {
-        //                 weekday: "short",
-        //             })),
-        //         )}`
-        //     },
-        // },
+        {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: `Commits Sent Over the Last 5 Days:\n\n${barChartGenerator(
+                    analytics.slice(0, 5).map((analytics) => analytics.totalCommits!), 5,
+                    analytics.slice(0, 5).map((analytics) => new Date(analytics.day!).toLocaleDateString("en-US", {
+                        weekday: "short",
+                    })),
+                )}`
+            },
+        },
+        {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: `New Releases Sent Over the Last 5 Days:\n\n${barChartGenerator(
+                    analytics.slice(0, 5).map((analytics) => analytics.totalReleases!), 5,
+                    analytics.slice(0, 5).map((analytics) => new Date(analytics.day!).toLocaleDateString("en-US", {
+                        weekday: "short",
+                    })),
+                )}`
+            },
+        },
+        {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: `New Users Over the Last 5 Days:\n\n${barChartGenerator(
+                    analytics.slice(0, 5).map((analytics) => analytics.newUsers!), 5,
+                    analytics.slice(0, 5).map((analytics) => new Date(analytics.day!).toLocaleDateString("en-US", {
+                        weekday: "short",
+                    })),
+                )}`
+            },
+        },
         {
             type: "divider",
         },
