@@ -78,8 +78,6 @@ const fetchAction = async (
                     // @ts-expect-error
                     await db.update(schema.users).set({ threadTS: payload.message.thread_ts, expireTime, arcadeSessionDone }).where(like(schema.users.userID, payload.user.id)).execute();
 
-                    console.log(payload)
-
                     // send a message in the thread
                     await context.client.chat.postMessage({
                         // @ts-expect-error
