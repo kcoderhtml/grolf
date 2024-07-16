@@ -1,4 +1,4 @@
-import { slackApp } from "../index";
+import { getEnabled, slackApp } from "../index";
 import { db } from "../db/index";
 import * as schema from "../db/schema";
 
@@ -86,6 +86,7 @@ export async function getSettingsMenuBlocks(
 
     const users = await db.select().from(schema.users).all();
     const analytics = await db.select().from(schema.analytics).all().sort((a, b) => b.day!.localeCompare(a.day!));
+    const enabled = getEnabled();
 
     // update the home tab
     return [
@@ -95,6 +96,34 @@ export async function getSettingsMenuBlocks(
                 type: "mrkdwn",
                 text: `:gear: Grolf's Lair :gear:`,
             },
+        },
+        {
+            type: "divider",
+        },
+        {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: `:neocat_happy: App status: ${enabled ? ":white_check_mark:" : ":x:"}`,
+            },
+        },
+        {
+            type: "actions",
+            elements: [
+                {
+                    type: "button",
+                    text: {
+                        type: "plain_text",
+                        text:
+                            "Toggle App Status to " +
+                            (!enabled
+                                ? ":white_check_mark:"
+                                : ":x:"),
+                        emoji: true,
+                    },
+                    action_id: "toggleEnabled",
+                },
+            ],
         },
         {
             type: "divider",
