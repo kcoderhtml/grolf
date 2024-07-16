@@ -19,3 +19,9 @@ export const analytics = sqliteTable("analytics", {
     totalReleases: integer("total_releases"),
     newUsers: integer("new_users"),
 });
+
+export const settings = sqliteTable("settings", {
+    id: integer("id").primaryKey(),
+    setting: text("setting"),
+    boolean: integer("boolean"),
+});
