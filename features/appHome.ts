@@ -61,7 +61,7 @@ export async function getSettingsMenuBlocks(
     const users = await db.select().from(schema.users).all();
     const enabled = getEnabled();
 
-    if (allowed) {
+    if (!allowed) {
         blog(`User <@${user}> is not an admin so they are not authorized to change any settings but plz enjoy the analytics!`, "info");
         return [
             {
