@@ -16,7 +16,7 @@ const reloadHandler = async (
             user.user?.is_admin ||
             process.env.ADMINS?.split(",").includes(user.user?.id!)
         ) {
-            console.log("📥 User is authorized to reload the settings page", user.user!.name);
+            console.log("📥 User is an authorized admin, showing the settings page", user.user!.name);
 
             // update the home tab
             await context.client.views.publish({
@@ -28,7 +28,7 @@ const reloadHandler = async (
             });
             return;
         } else {
-            console.log("📥 User is not authorized", user.user!.name);
+            console.log("📥 User is not an admin showing the analytics page", user.user!.name);
             // update the home tab
             await context.client.views.publish({
                 user_id: payload.user.id,
