@@ -64,7 +64,7 @@ const fetchAction = async (
                             type: "modal",
                             title: {
                                 type: "plain_text",
-                                text: "Fetch Data",
+                                text: "Loggity Log 'a Log into GibityHub",
                                 emoji: true
                             },
                             close: {
@@ -120,7 +120,7 @@ const fetchAction = async (
                         type: "modal",
                         title: {
                             type: "plain_text",
-                            text: "Fetch Data",
+                            text: "make grolf sad :(",
                             emoji: true
                         },
                         close: {
