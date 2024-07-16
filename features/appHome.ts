@@ -61,7 +61,7 @@ export async function getSettingsMenuBlocks(
     const users = await db.select().from(schema.users).all();
     const enabled = getEnabled();
 
-    if (!allowed) {
+    if (allowed) {
         blog(`User <@${user}> is not authorized to access the analytics page.`, "error");
         return [
             {
@@ -78,11 +78,7 @@ export async function getSettingsMenuBlocks(
                 type: "section",
                 text: {
                     type: "mrkdwn",
-                    text: `:siren-real: You are not authorized to use this app. Please contact the owners of this app ( ${process.env.ADMINS?.split(
-                        ",",
-                    )
-                        .map((admin) => `<@${admin}>`)
-                        .join(" ")} ) to get access.`,
+                    text: `:siren-real: You are not an admin so you are not authorized to change any settings but plz enjoy the analytics!`,
                 },
             },
             {
@@ -130,7 +126,21 @@ export async function getSettingsMenuBlocks(
                         })),
                     )}`
                 },
-            }
+            },
+            {
+                type: "divider",
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: `:blobby-admission_tickets: Admins: \n\n${process.env.ADMINS?.split(
+                        ",",
+                    )
+                        .map((admin) => `<@${admin}>`)
+                        .join(" ")}`,
+                },
+            },
         ];
     }
 
