@@ -18,6 +18,11 @@ fetch:
     - "Your session has expired <@${user_id}>... :sob:"
     - "Why did you send me here <@${user_id}>? Your session has expired... :sob:"
     - "You cruel person <@${user_id}>... you let your session expire... :sob:"
+  disabled:
+    - "I'm sorry <@${user_id}>, but I'm disabled... :sob:"
+    - "I'm disabled <@${user_id}>... :sob:"
+    - "Well don't come sniffing around here <@${user_id}>... I'm disabled... :sob:"
+    - "I'm disabled <@${user_id}>... :sob: I may never rise again :heavy-sob: if you don't enable me... i might just waste away... :sob:"
 commit:
   normal:
     - "Umrnph; why did you wake me up <@${user_id}>? :robot_face: :sleeping: I was in the middle of a dream... :zzz:\nAnyway, I've committed your data! :tada: the pixie that woke me said its from ${repo_url}... :sparkles:\noh and it also said that it came with a message: ${commit_message} :sparkles:"

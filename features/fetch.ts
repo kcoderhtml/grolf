@@ -1,4 +1,4 @@
-import { slackApp } from "../index";
+import { getEnabled, slackApp } from "../index";
 import { db } from "../db/index";
 import * as schema from "../db/schema";
 
@@ -16,6 +16,30 @@ const fetchAction = async (
             if (context.channelId !== "C06SBHMQU8G" || payload.message.bot_id !== "B077ZPZ3RB7") {
                 // @ts-expect-error
                 clog(`User tried to fetch data in wrong channel: ${payload.message.channel} or bot: ${payload.message.bot_id}`, "error");
+                return;
+            }
+
+            if (!getEnabled()) {
+                // send the disabled message
+                await context.client.views.open({
+                    trigger_id: payload.trigger_id,
+                    view: {
+                        type: "modal",
+                        title: {
+                            type: "plain_text",
+                            text: "Bibity bye bye!",
+                            emoji: true
+                        },
+                        close: {
+                            type: "plain_text",
+                            text: "Shoo shoo",
+                            emoji: true
+                        },
+                        blocks: [
+                            { type: "context", elements: [{ type: "mrkdwn", text: t("fetch.disabled", { user_id: payload.user.id }) }] },
+                        ]
+                    }
+                });
                 return;
             }
 
