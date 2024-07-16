@@ -62,7 +62,7 @@ export async function getSettingsMenuBlocks(
     const enabled = getEnabled();
 
     if (allowed) {
-        blog(`User <@${user}> is not authorized to access the analytics page.`, "error");
+        blog(`User <@${user}> is not an admin so they are not authorized to change any settings but plz enjoy the analytics!`, "info");
         return [
             {
                 type: "section",
