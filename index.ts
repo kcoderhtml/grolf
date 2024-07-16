@@ -7,6 +7,7 @@ import * as features from "./features/index";
 import { db } from "./db/index";
 import * as schema from "./db/schema";
 import { githubHandler, githubWebhookHandler } from "./features/githubHandler";
+import { like } from "drizzle-orm";
 
 const version = require('./package.json').version
 
@@ -39,6 +40,33 @@ console.log(`⛁  Loading DB...`);
 const users = await db.select().from(schema.users).all();
 console.log(`👥 Loaded ${users.length} users`);
 
+let enabled = true;
+
+// check the db for enabled
+const existingSetting = await db.select().from(schema.settings).where(like(schema.settings.setting, "enabled")).execute();
+if (existingSetting && existingSetting.length > 0) {
+    enabled = existingSetting[0].boolean === 1 ? true : false;
+}
+
+async function updateEnabled(value: boolean) {
+    enabled = value;
+
+    // update the settings
+    const existingSetting = await db.select().from(schema.settings).where(like(schema.settings.setting, "enabled")).execute();
+
+    if (existingSetting) {
+        console.log("📥 Updating enabled setting to", value);
+        await db.update(schema.settings).set({ boolean: value ? 1 : 0 }).where(like(schema.settings.setting, "enabled")).execute();
+    } else {
+        console.log("📥 Inserting enabled setting to", value);
+        await db.insert(schema.settings).values({ setting: "enabled", boolean: value ? 1 : 0 }).execute();
+    }
+}
+
+function getEnabled() {
+    return enabled;
+}
+
 console.log(`🚀 Server Started in ${Bun.nanoseconds() / 1000000} milliseconds on version: ${version}!\n\n----------------------------------\n`,)
 
 blog(t("app.startup", {
@@ -69,4 +97,4 @@ export default {
     },
 };
 
-export { slackApp, slackClient };
+export { slackApp, slackClient, getEnabled, updateEnabled };
