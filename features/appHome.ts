@@ -57,6 +57,10 @@ export async function getSettingsMenuBlocks(
     allowed: boolean,
     user: string,
 ): Promise<AnyHomeTabBlock[]> {
+    const analytics = await db.select().from(schema.analytics).all().sort((a, b) => b.day!.localeCompare(a.day!));
+    const users = await db.select().from(schema.users).all();
+    const enabled = getEnabled();
+
     if (!allowed) {
         blog(`User <@${user}> is not authorized to access the analytics page.`, "error");
         return [
@@ -81,12 +85,54 @@ export async function getSettingsMenuBlocks(
                         .join(" ")} ) to get access.`,
                 },
             },
+            {
+                type: "divider"
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: `:blobby-bar_chart: Analytics:\n\nTotal Users: ${users.length}`,
+                },
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: `Commits Sent Over the Last 5 Days:\n\n${barChartGenerator(
+                        analytics.slice(0, 5).map((analytics) => analytics.totalCommits!), 5,
+                        analytics.slice(0, 5).map((analytics) => new Date(analytics.day!).toLocaleDateString("en-US", {
+                            weekday: "short",
+                        })),
+                    )}`
+                },
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: `New Releases Sent Over the Last 5 Days:\n\n${barChartGenerator(
+                        analytics.slice(0, 5).map((analytics) => analytics.totalReleases!), 5,
+                        analytics.slice(0, 5).map((analytics) => new Date(analytics.day!).toLocaleDateString("en-US", {
+                            weekday: "short",
+                        })),
+                    )}`
+                },
+            },
+            {
+                type: "section",
+                text: {
+                    type: "mrkdwn",
+                    text: `New Users Over the Last 5 Days:\n\n${barChartGenerator(
+                        analytics.slice(0, 5).map((analytics) => analytics.newUsers!), 5,
+                        analytics.slice(0, 5).map((analytics) => new Date(analytics.day!).toLocaleDateString("en-US", {
+                            weekday: "short",
+                        })),
+                    )}`
+                },
+            }
         ];
     }
-
-    const users = await db.select().from(schema.users).all();
-    const analytics = await db.select().from(schema.analytics).all().sort((a, b) => b.day!.localeCompare(a.day!));
-    const enabled = getEnabled();
 
     // update the home tab
     return [
