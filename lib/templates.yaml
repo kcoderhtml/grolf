@@ -20,8 +20,8 @@ fetch:
     - "You cruel person <@${user_id}>... you let your session expire... :sob:"
 commit:
   normal:
-    - "Umrnph; why did you wake me up <@${user_id}>? :robot_face: :sleeping: I was in the middle of a dream... :zzz:\nAnyway, I've committed your data! :tada: the pixie that woke me said its from ${repo_url}... :sparkles:\noh and it also said that it came with a message: `${commit_message}` :sparkles:"
-    - "I've committed your data <@${user_id}>! :tada: :robot_face: :sparkles: for this commit: `${commit_message}` :sparkles: your code is now in ${repo_url} safe and sound... :sparkles:"
+    - "Umrnph; why did you wake me up <@${user_id}>? :robot_face: :sleeping: I was in the middle of a dream... :zzz:\nAnyway, I've committed your data! :tada: the pixie that woke me said its from ${repo_url}... :sparkles:\noh and it also said that it came with a message: ${commit_message} :sparkles:"
+    - "I've committed your data <@${user_id}>! :tada: :robot_face: :sparkles: for this commit: ${commit_message} :sparkles: your code is now in ${repo_url} safe and sound... :sparkles:"
     - "Hey there! I'm going to bother you because you committed some data! :robot_face: :tada: :sparkles: your precious github streak is now a little bit longer... :sparkles: your data is now in ${repo_url} <@${user_id}>... :sparkles:\n${commit_message}"
   release:
     - "You released something i believe? <@${user_id}> :robot_face: :tada: <${release_url}|Check it out!> :sparkles: your data is now in ${repo_url} with the tag `${release_tag}`... :sparkles:"
