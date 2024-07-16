@@ -141,6 +141,23 @@ export async function getSettingsMenuBlocks(
                         .join(" ")}`,
                 },
             },
+            {
+                type: "divider",
+            },
+            {
+                type: "actions",
+                elements: [
+                    {
+                        type: "button",
+                        text: {
+                            type: "plain_text",
+                            text: "Reload Dashboard",
+                            emoji: true,
+                        },
+                        action_id: "reloadDashboard",
+                    },
+                ],
+            }
         ];
     }
 
