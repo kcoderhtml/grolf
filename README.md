@@ -2,6 +2,8 @@
 
 Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
 
+Claim to fame: I demoed this to the founder of Github!
+
 ## Prerequisites
 You need a slack app with the following manifest
 
