@@ -1,6 +1,4 @@
-import { like } from "drizzle-orm";
-import { db } from "../db/index";
-import * as schema from "../db/schema";
+import { prisma } from "../index"
 import { slackClient } from "..";
 import { blog } from "../utils/Logger";
 import { t } from "../lib/template";

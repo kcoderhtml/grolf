@@ -4,10 +4,9 @@ import { t } from "./lib/template";
 
 import * as features from "./features/index";
 
-import { db } from "./db/index";
-import * as schema from "./db/schema";
-import { githubHandler, githubWebhookHandler } from "./features/githubHandler";
-import { like } from "drizzle-orm";
+import { PrismaClient } from "@prisma/client";
+
+import { githubHandler } from "./features/githubHandler";
 
 const version = require('./package.json').version
 
@@ -37,29 +36,46 @@ for (const [feature, handler] of Object.entries(features)) {
 
 // loading db
 console.log(`⛁  Loading DB...`);
-const users = await db.select().from(schema.users).all();
+const prisma = new PrismaClient()
+const users = await prisma.users.findMany()
 console.log(`👥 Loaded ${users.length} users`);
 
 let enabled = true;
 
 // check the db for enabled
-const existingSetting = await db.select().from(schema.settings).where(like(schema.settings.setting, "enabled")).execute();
-if (existingSetting && existingSetting.length > 0) {
-    enabled = existingSetting[0].boolean === 1 ? true : false;
+const existingSetting = await prisma.settings.findFirst({where: {
+    setting: "enabled"
+}})
+if (existingSetting) {
+    enabled = existingSetting.boolean
 }
 
 async function updateEnabled(value: boolean) {
     enabled = value;
 
     // update the settings
-    const existingSetting = await db.select().from(schema.settings).where(like(schema.settings.setting, "enabled")).execute();
+    const existingSetting = await prisma.settings.findFirst({where: {
+        setting: "enabled"
+    }})
 
     if (existingSetting) {
         console.log("📥 Updating enabled setting to", value);
-        await db.update(schema.settings).set({ boolean: value ? 1 : 0 }).where(like(schema.settings.setting, "enabled")).execute();
+        await prisma.settings.update({
+            where: {
+                id: existingSetting.id
+            },
+            data: {
+                boolean: !existingSetting.boolean
+            }
+        })
     } else {
         console.log("📥 Inserting enabled setting to", value);
-        await db.insert(schema.settings).values({ setting: "enabled", boolean: value ? 1 : 0 }).execute();
+        await prisma.settings.create({
+            data: {
+                setting: "enabled",
+                boolean: value
+            }
+        })
     }
 }
 
@@ -97,4 +113,4 @@ export default {
     },
 };
 
-export { slackApp, slackClient, getEnabled, updateEnabled };
+export { slackApp, slackClient, prisma, getEnabled, updateEnabled };

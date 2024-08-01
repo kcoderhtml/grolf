@@ -1,6 +1,4 @@
 import { getEnabled, slackApp } from "../index";
-import { db } from "../db/index";
-import * as schema from "../db/schema";
 
 import { t } from "../lib/template";
 import { clog } from "../utils/Logger";
