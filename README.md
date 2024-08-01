@@ -44,7 +44,7 @@ and a github app with the commit status and contents permissions as well as the 
 
 ## Dev
 To run install the deps and run bun dev
-    
+
 ```bash
 bun install
 bun dev
