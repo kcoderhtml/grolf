@@ -1,4 +1,4 @@
-import { getEnabled, slackApp } from "../index";
+import { getEnabled, slackApp, prisma } from "../index";
 
 import { blog } from "../utils/Logger";
 import type { AnyHomeTabBlock } from "slack-edge";
@@ -55,8 +55,8 @@ export async function getSettingsMenuBlocks(
     allowed: boolean,
     user: string,
 ): Promise<AnyHomeTabBlock[]> {
-    const analytics = await db.select().from(schema.analytics).all().sort((a, b) => b.day!.localeCompare(a.day!));
-    const users = await db.select().from(schema.users).all();
+    const analytics = (await prisma.analytics.findMany()).sort((a, b) => b.day!.getTime() - a.day!.getTime());
+    const users = await prisma.users.findMany()
     const enabled = getEnabled();
 
     if (!allowed) {
