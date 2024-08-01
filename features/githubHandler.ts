@@ -144,7 +144,7 @@ async function uninstallationHandler(json: any) {
     // find user in db
     const user = await db.select().from(schema.users).where(like(schema.users.githubUser, json.installation.account.login))
 
-    if (user.length > 0 && user[0].installed === 2) { // delete user if found
+    if (user.length > 0) { // delete user if found
         await db.delete(schema.users).where(like(schema.users.githubUser, json.installation.account.login)).execute();
         blog(`User ${json.installation.account.login} uninstalled Grolf!`, "info")
     }
