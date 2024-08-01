@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:./data/users.db"
+}
+
+model Analytics {
+    id            String   @id @default(uuid())
+    day           DateTime @unique @default(now())
+    totalCommits  Int      @default(0)
+    totalReleases Int      @default(0)
+    newUsers      Int      @default(0)
+}
+
+model Settings {
+    id      String  @id @default(uuid())
+    setting String  @unique
+    boolean Boolean
+}
+
+model Users {
+    id                String  @id @default(uuid())
+    userID            String
+    userName          String
+    viewID            String
+    githubUser        String
+    installed         Boolean
+    threadTS          String
+    expireTime        String
+    arcadeSessionDone Boolean
+}
+
+// export const users = sqliteTable("users", {
+//     id: integer("id").primaryKey(),
+//     userID: text("user_id"),
+//     userName: text("user_name"),
+//     viewID: text("view_id"),
+//     githubUser: text("github_user"),
+//     installed: integer("installed"),
+//     threadTS: text("thread_ts"),
+//     expireTime: integer("expire_time"),
+//     arcadeSessionDone: integer("arcade_session_done"),
+// });
+
+// export const settings = sqliteTable("settings", {
+//     id: integer("id").primaryKey(),
+//     setting: text("setting"),
+//     boolean: integer("boolean"),
+// });
