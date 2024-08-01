@@ -50,7 +50,7 @@ const fetchAction = async (
             const arcadeSessionDone = (expireTime - new Date().getTime()) > 0 ? 1 : 0
 
             if (arcadeSessionDone === 1) {
-                if (user.length === 0) {
+                if (user.length === 0 || user[0].githubUser === undefined) {
                     clog(`User not found in DB: ${payload.user.id}`, "error");
 
                     const user = await context.client.users.info({ user: payload.user.id })
@@ -64,7 +64,7 @@ const fetchAction = async (
                             type: "modal",
                             title: {
                                 type: "plain_text",
-                                text: "Loggity Log 'a Log into GibityHub",
+                                text: "Loggity Log into GityHub",
                                 emoji: true
                             },
                             close: {
