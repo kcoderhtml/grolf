@@ -1,4 +1,4 @@
-# grolf
+# grolf arcade bot
 
 Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
 
