@@ -55,7 +55,7 @@ export async function getSettingsMenuBlocks(
     allowed: boolean,
     user: string,
 ): Promise<AnyHomeTabBlock[]> {
-    const analytics = (await prisma.analytics.findMany()).sort((a, b) => b.day!.getTime() - a.day!.getTime());
+    const analytics = (await prisma.analytics.findMany()).sort((a, b) => b.day!.localeCompare(a.day!));
     const users = await prisma.users.findMany()
     const enabled = getEnabled();
 
