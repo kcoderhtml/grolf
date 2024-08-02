@@ -79,12 +79,9 @@ export async function githubWebhookHandler(json: any) {
 
             // update analytics
             const day = new Date().toISOString().split("T")[0] + "T00:00:00.000Z"
-            const analytics = await prisma.analytics.findFirst({where: {
-                day
-            }})
 
             await prisma.analytics.upsert({update: {
-                totalCommits: (analytics!.totalCommits! || 0) + (isRelease ? 0 : 1), totalReleases: (analytics!.totalReleases! || 0) + (isRelease ? 1 : 0)
+                totalCommits: {increment: (isRelease ? 0 : 1)}, totalReleases:{increment: (isRelease ? 1 : 0)}
             }, create: {
                 day,
                 totalCommits: (isRelease ? 0 : 1),
@@ -149,15 +146,12 @@ async function installationHandler(json: any) {
 
     // create a new analytics entry if it doesn't exist
     const day = new Date().toISOString().split("T")[0] + "T00:00:00.000Z"
-    const analytics = await prisma.analytics.findFirst({where: {
-        day
-    }})
 
     await prisma.analytics.upsert({update: {
-        newUsers: (analytics!.newUsers! || 0) + 1
+        newUsers: {increment: 1}
     }, create: {
         day,
-        newUsers: (analytics!.newUsers! || 0) + 1
+        newUsers: 1
     },
     where: {
         day
