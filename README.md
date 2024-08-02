@@ -4,7 +4,7 @@ Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
 
 Claim to fame: I demoed this to the founder of Github!
 
-## Prerequisites
+## Creating the apps
 You need a slack app with the following manifest
 
 ```yaml
@@ -42,12 +42,42 @@ settings:
 
 and a github app with the commit status and contents permissions as well as the mandatory metadata permission. You also need to configure the app webhook to send events to `https://your-app-url.ngrok-free.app/gh` as well as the callback url to `https://your-app-url.ngrok-free.app/gh`
 
-## Dev
-To run install the deps and run bun dev
+## Installing
+Install the dependencies first
 
 ```bash
 bun install
-bun dev
+```
+
+### Running the Slackbot
+
+First migrate the db so you have a local copy of the database then you can run the dev script to start the server!
+
+```bash
+bunx prisma migrate dev --name db
+bun run dev
+```
+
+You probably also want to run the ngrok tunnel so that your slackbot can get events from slack (double check the package.json to make sure that you changed the url to your ngrok url)
+
+```bash
+bun run ngrok
+```
+
+## Development
+
+### Database
+
+If you change the schema.prisma file you will need to run the following command to update the database schema
+
+```bash
+bunx prisma migrate dev
+```
+
+alternatively you can use the db push command which is a more prod friendly command
+
+```bash
+bunx prisma db push
 ```
 
 ## Production
