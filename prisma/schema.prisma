@@ -25,13 +25,12 @@ model Settings {
 }
 
 model Users {
-    id                String  @id @default(uuid())
-    userID            String
+    id                String   @id @default(uuid())
     userName          String
-    viewID            String
-    githubUser        String
+    viewID            String   @default("")
+    githubUser        String   @default("")
     installed         Boolean
     threadTS          String
-    expireTime        String
+    expireTime        DateTime
     arcadeSessionDone Boolean
 }

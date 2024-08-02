@@ -1,4 +1,4 @@
-import { getEnabled, slackApp } from "../index";
+import { getEnabled, slackApp, prisma } from "../index";
 
 import { t } from "../lib/template";
 import { clog } from "../utils/Logger";
@@ -42,18 +42,29 @@ const fetchAction = async (
             }
 
             // check if user is in db
-            const user = await db.select().from(schema.users).where(like(schema.users.userID, payload.user.id))
+            const user = await prisma.users.findFirst({where: {
+                id: payload.user.id
+            }})
 
-            const expireTime = await fetch("https://hackhour.hackclub.com/api/clock/" + payload.user.id).then(res => res.text()).then(text => new Date(new Date().getTime() + (parseInt(text))).getTime())
-            const arcadeSessionDone = (expireTime - new Date().getTime()) > 0 ? 1 : 0
+            const expireTime = await fetch("https://hackhour.hackclub.com/api/clock/" + payload.user.id).then(res => res.text()).then(text => new Date(new Date().getTime() + (parseInt(text))))
+            const arcadeSessionDone = (expireTime.getTime() - new Date().getTime()) > 0
 
-            if (arcadeSessionDone === 1) {
-                if (user.length === 0 || user[0].githubUser === undefined) {
+            if (!arcadeSessionDone) {
+                if (!user || user.githubUser == undefined) {
                     clog(`User not found in DB: ${payload.user.id}`, "error");
 
                     const user = await context.client.users.info({ user: payload.user.id })
-                    // @ts-expect-error
-                    await db.insert(schema.users).values({ userName: user.user!.name, userID: payload.user.id, installed: 0, threadTS: payload.message.thread_ts, expireTime, arcadeSessionDone }).execute();
+                    await prisma.users.create({
+                        data: {
+                            userName: user.user!.name!,
+                            id: payload.user.id,
+                            installed: false,
+                            // @ts-expect-error
+                            threadTS: payload.message.thread_ts,
+                            expireTime: expireTime,
+                            arcadeSessionDone
+                        }
+                    })
 
                     // send a view to the user
                     await context.client.views.open({
@@ -97,8 +108,15 @@ const fetchAction = async (
                     return;
                 } else {
                     // update thread ts
-                    // @ts-expect-error
-                    await db.update(schema.users).set({ threadTS: payload.message.thread_ts, expireTime, arcadeSessionDone }).where(like(schema.users.userID, payload.user.id)).execute();
+                    await prisma.users.update({where: {
+                        id: payload.user.id,
+                    },
+                    data: {
+                        // @ts-expect-error
+                        threadTS: payload.message.thread_ts,
+                        expireTime,
+                        arcadeSessionDone
+                    }})
 
                     // send a message in the thread
                     await context.client.chat.postMessage({

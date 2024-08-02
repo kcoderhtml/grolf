@@ -263,7 +263,7 @@ export async function getSettingsMenuBlocks(
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: `:blobby-imp: Users: \n\n${users.map((user) => `<@${user.userID}>`).join(" ")}`,
+                text: `:blobby-imp: Users: \n\n${users.map((user) => `<@${user.id}>`).join(" ")}`,
             },
         },
         {
