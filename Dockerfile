@@ -1,21 +1,24 @@
-# use the official Bun image
-# see all versions at https://hub.docker.com/r/oven/bun/tags
-FROM oven/bun:1.1.18 as base
-WORKDIR /usr/src/app
+# Set Bun and Node version
+ARG BUN_VERSION=1.1.20
+ARG NODE_VERSION=20.12.2
+FROM imbios/bun-node:${BUN_VERSION}-${NODE_VERSION}-slim
 
-# install with --production (exclude devDependencies)
-FROM base AS build
-RUN mkdir -p /temp/prod
-COPY . /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile --production
+# Set production environment
+ENV NODE_ENV="production"
 
-# copy production build to release image
-FROM base AS release
-COPY --from=build /temp/prod/. .
-RUN chown -R bun:bun .
-RUN mkdir data && chown -R bun:bun data
+# Bun app lives here
+WORKDIR /app
 
-# run the app
-USER bun
-EXPOSE 3000/tcp
-ENTRYPOINT [ "bun", "run", "index.ts" ]
+# Copy app files to app directory
+COPY . .
+
+# Install node modules
+RUN bun install
+
+# Generate Prisma Client
+RUN bunx prisma generate
+RUN bunx prisma db push
+
+# Start the server by default, this can be overwritten at runtime
+EXPOSE 3000
+CMD [ "bun", "run", "index.ts" ]
