@@ -138,6 +138,12 @@ async function installationHandler(json: any) {
         }
     })
 
+    await slackClient.chat.postMessage({
+        channel: "C06SBHMQU8G",
+        thread_ts: user.threadTS,
+        text: t("fetch.success", { user_id: user.id })
+    });
+
     await prisma.users.update({where: {
         githubUser: json.installation.account.login
     }, data: {
