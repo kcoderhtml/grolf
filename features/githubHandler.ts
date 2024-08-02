@@ -124,6 +124,11 @@ async function installationHandler(json: any) {
                 text: "Authentication",
                 emoji: true
             },
+            close: {
+                type: "plain_text",
+                text: "Click ME!",
+                emoji: true
+            },
             blocks: [
                 {
                     type: "section",
