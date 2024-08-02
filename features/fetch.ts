@@ -58,7 +58,7 @@ const fetchAction = async (
                         data: {
                             userName: user.user!.name!,
                             id: payload.user.id,
-                            installed: false,
+                            installed: 0,
                             // @ts-expect-error
                             threadTS: payload.message.thread_ts,
                             expireTime: expireTime,

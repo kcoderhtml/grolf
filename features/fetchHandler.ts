@@ -1,4 +1,4 @@
-import { slackApp } from "../index";
+import { slackApp, prisma } from "../index";
 
 import clog from "../utils/Logger";
 import { like } from "drizzle-orm";
@@ -31,8 +31,12 @@ const fetchHandler = async (
             }
         })
 
-        // @ts-expect-error
-        await db.update(schema.users).set({ githubUser: payload.actions[0].value, installed: 1, viewID: payload.view!.id }).where(like(schema.users.userID, payload.user.id)).execute();
+        await prisma.users.update({where: {id: payload.user.id}, data: {
+            // @ts-expect-error
+            githubUser: payload.actions[0].value,
+            installed: 1,
+            viewID: payload.view!.id
+        }})
     })
 }
 

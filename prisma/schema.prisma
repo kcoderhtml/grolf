@@ -29,7 +29,7 @@ model Users {
     userName          String
     viewID            String   @default("")
     githubUser        String   @default("")
-    installed         Boolean
+    installed         Int      @default(0)
     threadTS          String
     expireTime        DateTime
     arcadeSessionDone Boolean
