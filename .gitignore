@@ -175,4 +175,5 @@ dist
 .DS_Store
 
 dist
-data
+
+prisma/data
