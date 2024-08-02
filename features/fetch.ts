@@ -47,7 +47,7 @@ const fetchAction = async (
             }})
 
             const expireTime = await fetch("https://hackhour.hackclub.com/api/clock/" + payload.user.id).then(res => res.text()).then(text => new Date(new Date().getTime() + (parseInt(text))))
-            const arcadeSessionDone = (expireTime.getTime() - new Date().getTime()) > 0
+            const arcadeSessionDone = (expireTime.getTime() - new Date().getTime()) < 0
 
             if (!arcadeSessionDone) {
                 if (!user || user.githubUser == undefined) {
