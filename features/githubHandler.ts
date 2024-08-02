@@ -38,7 +38,6 @@ export async function githubWebhookHandler(json: any) {
     }
 
     // find user in db
-    // const user = await db.select().from(schema.users).where(like(schema.users.githubUser, (json.pusher.name as string).trim()))
     const user = await prisma.users.findFirst({where: {
         githubUser:  (json.pusher.name as string).trim()
     }})
