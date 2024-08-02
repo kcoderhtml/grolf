@@ -173,9 +173,11 @@ async function uninstallationHandler(json: any) {
         githubUser:  (json.installation.account.login as string).trim()
     }})
 
-    if (user) { // delete user if found
+    if (user && user.installed == 2) { // delete user if found
         await prisma.users.delete({where: {githubUser: json.installation.account.login}})
         blog(`User ${json.installation.account.login} uninstalled Grolf!`, "info")
+    } else {
+        blog(`User ${json.installation.account.login} tried to uninstalled grolf but was in the onboarding process; skipping`, "info")
     }
 
     return new Response("ok", { status: 200 });
