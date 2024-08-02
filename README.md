@@ -86,3 +86,8 @@ Use the docker-compose file to run the app in production
 ```bash
 docker-compose up -d
 ```
+
+---
+
+*© 2024 Kieran Klukas*  
+*Licensed under [AGPL 3.0](LICENSE.md)*
