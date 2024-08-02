@@ -84,7 +84,7 @@ export async function githubWebhookHandler(json: any) {
             }})
 
             await prisma.analytics.upsert({update: {
-                totalCommits: analytics!.totalCommits! + (isRelease ? 0 : 1), totalReleases: analytics!.totalReleases! + (isRelease ? 1 : 0)
+                totalCommits: (analytics!.totalCommits! || 0) + (isRelease ? 0 : 1), totalReleases: (analytics!.totalReleases! || 0) + (isRelease ? 1 : 0)
             }, create: {
                 day,
                 totalCommits: (isRelease ? 0 : 1),
@@ -154,10 +154,10 @@ async function installationHandler(json: any) {
     }})
 
     await prisma.analytics.upsert({update: {
-        newUsers: analytics!.newUsers! + 1
+        newUsers: (analytics!.newUsers! || 0) + 1
     }, create: {
         day,
-        newUsers: analytics!.newUsers! + 1
+        newUsers: (analytics!.newUsers! || 0) + 1
     },
     where: {
         day
