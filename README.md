@@ -5,6 +5,7 @@ Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
 Claim to fame: I demoed this to the founder of Github!
 
 ## Creating the apps
+
 You need a slack app with the following manifest
 
 ```yaml
@@ -43,6 +44,7 @@ settings:
 and a github app with the commit status and contents permissions as well as the mandatory metadata permission. You also need to configure the app webhook to send events to `https://your-app-url.ngrok-free.app/gh` as well as the callback url to `https://your-app-url.ngrok-free.app/gh`
 
 ## Installing
+
 Install the dependencies first
 
 ```bash
@@ -81,6 +83,7 @@ bunx prisma db push
 ```
 
 ## Production
+
 Use the docker-compose file to run the app in production
 
 ```bash
@@ -89,5 +92,5 @@ docker-compose up -d
 
 ---
 
-*© 2024 Kieran Klukas*  
-*Licensed under [AGPL 3.0](LICENSE.md)*
+_© 2024 Kieran Klukas_  
+_Licensed under [AGPL 3.0](LICENSE.md)_
