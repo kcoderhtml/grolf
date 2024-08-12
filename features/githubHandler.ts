@@ -26,13 +26,15 @@ export async function githubHandler(request: Request) {
     case "added":
       blog(
         `User ${json.sender.login} added Grolf to ${json.repository.full_name}!`,
-        "info",
+        "info"
       );
       return new Response("ok", { status: 200 });
     default:
       blog(
-        `Github Handler received unknown action: ${json.action}\n\n---\nfull json: \n---\n${JSON.stringify(json)}\n---`,
-        "error",
+        `Github Handler received unknown action: ${
+          json.action
+        }\n\n---\nfull json: \n---\n${JSON.stringify(json)}\n---`,
+        "error"
       );
       return new Response("ok", { status: 200 });
   }
@@ -43,13 +45,15 @@ export async function githubWebhookHandler(json: any) {
   // check if the push is a commit or a release
   if (isRelease) {
     blog(
-      `Github Webhook Handler triggered for repo: ${json.repository.full_name} with tag: \`${(json.ref as string).split("/")[2]}\``,
-      "info",
+      `Github Webhook Handler triggered for repo: ${
+        json.repository.full_name
+      } with tag: \`${(json.ref as string).split("/")[2]}\``,
+      "info"
     );
   } else {
     blog(
       `Github Webhook Handler triggered for repo: ${json.repository.full_name} with commit: \`${json.head_commit.id}\``,
-      "info",
+      "info"
     );
   }
 
@@ -65,11 +69,16 @@ export async function githubWebhookHandler(json: any) {
       const normalmessage = t("commit.normal", {
         commit_url: json.head_commit.url,
         repo_url: `<${json.repository.html_url}|${json.repository.full_name}>`,
-        commit_message: `\`${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}\``,
+        commit_message: `\`${(json.head_commit.message as string)
+          .split("\n")[0]
+          .trim()
+          .replaceAll("`", "")}\``,
         user_id: user.id,
       });
 
-      const releaseUrl = `${json.repository.html_url}/releases/tag/${(json.ref as string).split("/")[2]}`;
+      const releaseUrl = `${json.repository.html_url}/releases/tag/${
+        (json.ref as string).split("/")[2]
+      }`;
       const releasemessage = t("commit.release", {
         release_url: releaseUrl,
         repo_url: `<${json.repository.html_url}|${json.repository.full_name}>`,
@@ -83,7 +92,10 @@ export async function githubWebhookHandler(json: any) {
         thread_ts: user.threadTS,
         text: isRelease
           ? `released new version: `
-          : `committed: ${(json.head_commit.message as string).split("\n")[0].trim().replaceAll("`", "")}`,
+          : `committed: ${(json.head_commit.message as string)
+              .split("\n")[0]
+              .trim()
+              .replaceAll("`", "")}`,
         blocks: [
           {
             type: "section",
@@ -126,14 +138,16 @@ export async function githubWebhookHandler(json: any) {
       });
     } else {
       blog(
-        `Arcade session expired for <@${user.id}>! time till finished: ${user.expireTime.getTime() - Date.now()}`,
-        "error",
+        `Arcade session expired for <@${user.id}>! time till finished: ${
+          user.expireTime.getTime() - Date.now()
+        }`,
+        "error"
       );
     }
   } else {
     blog(
       `No user found / not properly installed for commit: ${json.pusher.name} on ${json.repository.full_name}`,
-      "error",
+      "error"
     );
   }
   return new Response("ok", { status: 200 });
@@ -143,7 +157,7 @@ export async function githubWebhookHandler(json: any) {
 async function installationHandler(json: any) {
   blog(
     "Installation Handler for user: " + json.installation.account.login,
-    "info",
+    "info"
   );
   // find user in db
   const user = await prisma.users.findFirst({
@@ -155,36 +169,40 @@ async function installationHandler(json: any) {
   if (!user || user.viewID == "") {
     blog(
       `User ${json.installation.account.login} installed Grolf! but not in database yet!`,
-      "error",
+      "error"
     );
     return new Response("ok", { status: 200 });
   }
 
-  await slackClient.views.update({
-    view_id: user.viewID!,
-    view: {
-      type: "modal",
-      title: {
-        type: "plain_text",
-        text: "Authentication",
-        emoji: true,
-      },
-      close: {
-        type: "plain_text",
-        text: "Click ME!",
-        emoji: true,
-      },
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: "Thanks for connecting your GitHub account! Grolf will now load this thread into it's memory and start sending you scraps!",
-          },
+  try {
+    await slackClient.views.update({
+      view_id: user.viewID!,
+      view: {
+        type: "modal",
+        title: {
+          type: "plain_text",
+          text: "Authentication",
+          emoji: true,
         },
-      ],
-    },
-  });
+        close: {
+          type: "plain_text",
+          text: "Click ME!",
+          emoji: true,
+        },
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "Thanks for connecting your GitHub account! Grolf will now load this thread into it's memory and start sending you scraps!",
+            },
+          },
+        ],
+      },
+    });
+  } catch (err) {
+    blog(err as string, "error");
+  }
 
   await slackClient.chat.postMessage({
     channel: "C06SBHMQU8G",
@@ -223,7 +241,7 @@ async function installationHandler(json: any) {
 async function uninstallationHandler(json: any) {
   blog(
     "Uninstallation Handler for user: " + json.installation.account.login,
-    "info",
+    "info"
   );
   // find user in db
   const user = await prisma.users.findFirst({
@@ -241,7 +259,7 @@ async function uninstallationHandler(json: any) {
   } else {
     blog(
       `User ${json.installation.account.login} tried to uninstalled grolf but was in the onboarding process; skipping`,
-      "info",
+      "info"
     );
   }
 
