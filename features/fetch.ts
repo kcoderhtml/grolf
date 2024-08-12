@@ -11,15 +11,15 @@ const fetchAction = async () => {
     async () => {},
     async ({ context, payload }) => {
       // first check if the message is in the arcade channel
-      // @ts-expect-error
       if (
         context.channelId !== "C06SBHMQU8G" ||
+        // @ts-expect-error
         payload.message.bot_id !== "B077ZPZ3RB7"
       ) {
-        // @ts-expect-error
         clog(
+          // @ts-expect-error
           `User tried to fetch data in wrong channel: ${payload.message.channel} or bot: ${payload.message.bot_id}`,
-          "error",
+          "error"
         );
         return;
       }
@@ -64,7 +64,7 @@ const fetchAction = async () => {
       });
 
       const expireTime = await fetch(
-        "https://hackhour.hackclub.com/api/clock/" + payload.user.id,
+        "https://hackhour.hackclub.com/api/clock/" + payload.user.id
       )
         .then((res) => res.text())
         .then((text) => new Date(new Date().getTime() + parseInt(text)));
@@ -205,7 +205,7 @@ const fetchAction = async () => {
           },
         });
       }
-    },
+    }
   );
 };
 

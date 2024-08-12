@@ -17,7 +17,7 @@ const reloadHandler = async () => {
     ) {
       console.log(
         "📥 User is an authorized admin, showing the settings page",
-        user.user!.name,
+        user.user!.name
       );
 
       // update the home tab
@@ -32,7 +32,7 @@ const reloadHandler = async () => {
     } else {
       console.log(
         "📥 User is not an admin showing the analytics page",
-        user.user!.name,
+        user.user!.name
       );
       // update the home tab
       await context.client.views.publish({

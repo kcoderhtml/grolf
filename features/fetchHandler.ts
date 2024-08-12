@@ -9,10 +9,10 @@ const fetchHandler = async () => {
     "fetchGithub",
     async () => {},
     async ({ payload, context }) => {
-      // @ts-expect-error
       clog(
+        // @ts-expect-error
         `User ${payload.user.id} triggered fetchGithub action with the username of: ${payload.actions[0].value}`,
-        "info",
+        "info"
       );
 
       await context.client.views.update({
@@ -45,7 +45,7 @@ const fetchHandler = async () => {
           viewID: payload.view!.id,
         },
       });
-    },
+    }
   );
 };
 
