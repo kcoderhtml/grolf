@@ -23,6 +23,11 @@ features:
       type: message
       callback_id: fetch
       description: Send grolf to go gather your commits and return with them to this thread!
+  slash_commands:
+    - command: /tellgrolf
+      url: https://casual-renewing-reptile.ngrok-free.app/slack
+      description: Tell grolf you want to change your user name!
+      should_escape: false
 oauth_config:
   scopes:
     bot:
