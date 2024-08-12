@@ -51,10 +51,10 @@ export default appHome;
 
 export async function getSettingsMenuBlocks(
   allowed: boolean,
-  user: string,
+  user: string
 ): Promise<AnyHomeTabBlock[]> {
   const analytics = (await prisma.analytics.findMany()).sort((a, b) =>
-    b.day!.localeCompare(a.day!),
+    b.day!.localeCompare(a.day!)
   );
   const users = await prisma.users.findMany();
   const enabled = getEnabled();
@@ -62,7 +62,7 @@ export async function getSettingsMenuBlocks(
   if (!allowed) {
     blog(
       `User <@${user}> is not an admin so they are not authorized to change any settings but plz enjoy the analytics!`,
-      "info",
+      "info"
     );
     return [
       {
@@ -86,6 +86,18 @@ export async function getSettingsMenuBlocks(
         type: "divider",
       },
       {
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: `If you want to know how to use grolf click this link here *_<https://slack.com/shortcuts/Ft07EFNS045T/f9d8fafa7d770b25ca40b4437e05dda3|\`The grolf tutorial\`>_*. If you have any further questions dm <@U062UG485EE>!`,
+          },
+        ],
+      },
+      {
+        type: "divider",
+      },
+      {
         type: "section",
         text: {
           type: "mrkdwn",
@@ -102,8 +114,8 @@ export async function getSettingsMenuBlocks(
             analytics.slice(0, 5).map((analytics) =>
               new Date(analytics.day!).toLocaleDateString("en-US", {
                 weekday: "short",
-              }),
-            ),
+              })
+            )
           )}`,
         },
       },
@@ -117,8 +129,8 @@ export async function getSettingsMenuBlocks(
             analytics.slice(0, 5).map((analytics) =>
               new Date(analytics.day!).toLocaleDateString("en-US", {
                 weekday: "short",
-              }),
-            ),
+              })
+            )
           )}`,
         },
       },
@@ -132,8 +144,8 @@ export async function getSettingsMenuBlocks(
             analytics.slice(0, 5).map((analytics) =>
               new Date(analytics.day!).toLocaleDateString("en-US", {
                 weekday: "short",
-              }),
-            ),
+              })
+            )
           )}`,
         },
       },
@@ -145,7 +157,7 @@ export async function getSettingsMenuBlocks(
         text: {
           type: "mrkdwn",
           text: `:blobby-admission_tickets: Admins: \n\n${process.env.ADMINS?.split(
-            ",",
+            ","
           )
             .map((admin) => `<@${admin}>`)
             .join(" ")}`,
@@ -184,10 +196,24 @@ export async function getSettingsMenuBlocks(
       type: "divider",
     },
     {
+      type: "context",
+      elements: [
+        {
+          type: "mrkdwn",
+          text: `If you want to know how to use grolf click this link here *_<https://slack.com/shortcuts/Ft07EFNS045T/f9d8fafa7d770b25ca40b4437e05dda3|\`The grolf tutorial\`>_*. If you have any further questions dm <@U062UG485EE>!`,
+        },
+      ],
+    },
+    {
+      type: "divider",
+    },
+    {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `:neocat_happy: App status: ${enabled ? ":white_check_mark:" : ":x:"}`,
+        text: `:neocat_happy: App status: ${
+          enabled ? ":white_check_mark:" : ":x:"
+        }`,
       },
     },
     {
@@ -226,8 +252,8 @@ export async function getSettingsMenuBlocks(
           analytics.slice(0, 5).map((analytics) =>
             new Date(analytics.day!).toLocaleDateString("en-US", {
               weekday: "short",
-            }),
-          ),
+            })
+          )
         )}`,
       },
     },
@@ -241,8 +267,8 @@ export async function getSettingsMenuBlocks(
           analytics.slice(0, 5).map((analytics) =>
             new Date(analytics.day!).toLocaleDateString("en-US", {
               weekday: "short",
-            }),
-          ),
+            })
+          )
         )}`,
       },
     },
@@ -256,8 +282,8 @@ export async function getSettingsMenuBlocks(
           analytics.slice(0, 5).map((analytics) =>
             new Date(analytics.day!).toLocaleDateString("en-US", {
               weekday: "short",
-            }),
-          ),
+            })
+          )
         )}`,
       },
     },
@@ -269,7 +295,7 @@ export async function getSettingsMenuBlocks(
       text: {
         type: "mrkdwn",
         text: `:blobby-admission_tickets: Admins: \n\n${process.env.ADMINS?.split(
-          ",",
+          ","
         )
           .map((admin) => `<@${admin}>`)
           .join(" ")}`,
@@ -282,7 +308,9 @@ export async function getSettingsMenuBlocks(
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `:blobby-imp: Users: \n\n${users.map((user) => `<@${user.id}>`).join(" ")}`,
+        text: `:blobby-imp: Users: \n\n${users
+          .map((user) => `<@${user.id}>`)
+          .join(" ")}`,
       },
     },
     {
