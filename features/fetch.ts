@@ -143,6 +143,66 @@ const fetchAction = async () => {
             },
           });
           return;
+        } else if (user.installed != 2) {
+          await context.client.views.open({
+            trigger_id: payload.trigger_id,
+            view: {
+              type: "modal",
+              title: {
+                type: "plain_text",
+                text: "Loggity Log into GityHub",
+                emoji: true,
+              },
+              close: {
+                type: "plain_text",
+                text: "Cancel (grolf sad)",
+                emoji: true,
+              },
+              blocks: [
+                {
+                  type: "context",
+                  elements: [
+                    {
+                      type: "mrkdwn",
+                      text: t("fetch.not_found", { user_id: payload.user.id }),
+                    },
+                  ],
+                },
+                { type: "divider" },
+                {
+                  type: "section",
+                  text: {
+                    type: "mrkdwn",
+                    text: `You already entered your username as \`${user.githubUser}\` but you still need to log in to github`,
+                  },
+                },
+                {
+                  type: "actions",
+                  elements: [
+                    {
+                      type: "button",
+                      text: {
+                        type: "plain_text",
+                        text: "Sign in with Github",
+                        emoji: true,
+                      },
+                      action_id: "fetchGithub",
+                      value: user.githubUser,
+                    },
+                    {
+                      type: "button",
+                      text: {
+                        type: "plain_text",
+                        text: "Change Username",
+                        emoji: true,
+                      },
+                      action_id: "changeUsername",
+                    },
+                  ],
+                },
+              ],
+            },
+          });
         } else {
           // update thread ts
           await prisma.users.update({

@@ -1,7 +1,6 @@
 import { slackApp, prisma } from "../index";
 
 import clog from "../utils/Logger";
-import { like } from "drizzle-orm";
 
 const fetchHandler = async () => {
   // listen for shortcut
@@ -29,8 +28,32 @@ const fetchHandler = async () => {
               type: "section",
               text: {
                 type: "mrkdwn",
-                text: "Thanks for entering your GitHub username! Please click <https://github.com/apps/grolf-s-github-personality|here to connect your GitHub account> to continue.",
+                // @ts-expect-error
+                text: `Thanks for entering your GitHub username  \`${payload.actions[0].value}\`! Please click <https://github.com/apps/grolf-s-github-personality|here to connect your GitHub account> to continue.`,
               },
+            },
+            {
+              type: "context",
+              elements: [
+                {
+                  type: "plain_text",
+                  text: "alternatively if you spelled your username wrong click the button to change it",
+                },
+              ],
+            },
+            {
+              type: "actions",
+              elements: [
+                {
+                  type: "button",
+                  text: {
+                    type: "plain_text",
+                    text: "Change Username",
+                    emoji: true,
+                  },
+                  action_id: "changeUsername",
+                },
+              ],
             },
           ],
         },
