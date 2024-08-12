@@ -177,3 +177,4 @@ dist
 dist
 
 prisma/data
+prisma/migrations
