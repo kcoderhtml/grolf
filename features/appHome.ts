@@ -90,7 +90,7 @@ export async function getSettingsMenuBlocks(
         elements: [
           {
             type: "mrkdwn",
-            text: `If you want to know how to use grolf click this link here *_<https://slack.com/shortcuts/Ft07EFNS045T/f9d8fafa7d770b25ca40b4437e05dda3|\`The grolf tutorial\`>_*. If you have any further questions dm <@U062UG485EE>!`,
+            text: `If you want to know how to use grolf click this link here *_<https://slack.com/shortcuts/Ft07EFNS045T/f9d8fafa7d770b25ca40b4437e05dda3|\`The grolf tutorial\`>_*. If you have any further questions dm <@U062UG485EE>! If you just need to change your username run \`/tellgrolf\` and follow the instructions. If you want to use grolf the tldr is to run the "fetchgrolf" message action on your arcade thread`,
           },
         ],
       },
@@ -200,7 +200,7 @@ export async function getSettingsMenuBlocks(
       elements: [
         {
           type: "mrkdwn",
-          text: `If you want to know how to use grolf click this link here *_<https://slack.com/shortcuts/Ft07EFNS045T/f9d8fafa7d770b25ca40b4437e05dda3|\`The grolf tutorial\`>_*. If you have any further questions dm <@U062UG485EE>!`,
+          text: `If you want to know how to use grolf click this link here *_<https://slack.com/shortcuts/Ft07EFNS045T/f9d8fafa7d770b25ca40b4437e05dda3|\`The grolf tutorial\`>_*. If you have any further questions dm <@U062UG485EE>! If you just need to change your username run \`/tellgrolf\` and follow the instructions. If you want to use grolf the tldr is to run the "fetchgrolf" message action on your arcade thread`,
         },
       ],
     },
