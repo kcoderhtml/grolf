@@ -2,7 +2,26 @@
 
 Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
 
-Claim to fame: I demoed this to the founder of Github!
+_Claim to fame: I demoed this to the founder of Github!_
+
+![the apphome page of grolf](.github/images/apphome.png)
+
+## Usage on slack
+
+First you need to create a new arcade session like below:
+![arcade session](.github/images/arcade-thread.png)
+Next click the three dots next to your thread's top message
+![message actions popup](.github/images/arcade-message-shortcuts.png)
+Now click the message shortcuts button and search for `fetch grolf` in the popup
+![the message shortcuts popup](.github/images/messasge-shortcuts.png)
+Now click the fetch grolf shortcut and follow the instructions grolf gives you to authorize your acount with github (if there was a database reset and you need to do this again then enter your github username in the popup follow the link displayed to install grolf and then delete the grolf app from your github acount then reinstall it acording to grolf's instructions)
+![grolf's github login popup](.github/images/grolf-github-login.png)
+When installing the grolf app I recommend checking all repositories so that grolf will just work regardless of what you are working on but you can also chose specific repositories if you feel more comfortable that way.
+![grolf github installation](.github/images/grolf-github-install.png)
+Grolf will now send a message in your arcade thread and you are good to go!
+![grolf listening message](.github/images/grolf-listening-message.png)
+
+If you ever need to change your github username and update that in grolf then just run the command `/tellgrolf` and follow the instructions
 
 ## Creating the apps
 
@@ -94,6 +113,10 @@ Use the docker-compose file to run the app in production
 ```bash
 docker-compose up -d
 ```
+
+## Screenshots
+
+![An example of an arcade thread with grolf](.github/images/thread.png)
 
 ---
 
