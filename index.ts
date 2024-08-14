@@ -11,9 +11,9 @@ import { githubHandler } from "./features/githubHandler";
 const version = require("./package.json").version;
 
 console.log(
-  "----------------------------------\nGrolf Server\n----------------------------------\n",
+  "----------------------------------\nGrolf Server\n----------------------------------\n"
 );
-console.log("🏗️  Starting ABOT...");
+console.log("🏗️ Starting ABOT...");
 console.log("📦 Loading Slack App...");
 console.log("🔑 Loading environment variables...");
 
@@ -28,7 +28,7 @@ const slackApp = new SlackApp({
 });
 const slackClient = slackApp.client;
 
-console.log(`⚒️  Loading ${Object.entries(features).length} features...`);
+console.log(`⚒️ Loading ${Object.entries(features).length} features...`);
 for (const [feature, handler] of Object.entries(features)) {
   console.log(`📦 ${feature} loaded`);
   if (typeof handler === "function") {
@@ -37,7 +37,7 @@ for (const [feature, handler] of Object.entries(features)) {
 }
 
 // loading db
-console.log(`⛁  Loading DB...`);
+console.log(`🛢️ Loading DB...`);
 const prisma = new PrismaClient();
 const users = await prisma.users.findMany();
 console.log(`👥 Loaded ${users.length} users`);
@@ -92,14 +92,14 @@ function getEnabled() {
 console.log(
   `🚀 Server Started in ${
     Bun.nanoseconds() / 1000000
-  } milliseconds on version: ${version}!\n\n----------------------------------\n`,
+  } milliseconds on version: ${version}!\n\n----------------------------------\n`
 );
 
 blog(
   t("app.startup", {
     environment: process.env.NODE_ENV,
   }),
-  "start",
+  "start"
 );
 
 console.log();
