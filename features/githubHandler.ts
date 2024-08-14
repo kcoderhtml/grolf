@@ -25,7 +25,17 @@ export async function githubHandler(request: Request) {
       return uninstallationHandler(json);
     case "added":
       blog(
-        `User ${json.sender.login} added Grolf to ${json.repository.full_name}!`,
+        `User ${json.sender.login} added Grolf to ${(
+          json.repositories_added as {
+            id: number;
+            node_id: string;
+            name: string;
+            full_name: string;
+            private: boolean;
+          }[]
+        )
+          .map((repo) => repo.full_name)
+          .join(" ")}!`,
         "info"
       );
       return new Response("ok", { status: 200 });
@@ -43,7 +53,7 @@ export async function githubHandler(request: Request) {
 export async function githubWebhookHandler(json: any) {
   const isRelease = (json.ref as string).startsWith("refs/tags/");
   // check if the push is a commit or a release
-  if (json.pusher.name === "github-actions[bot]" || json.action === "added")
+  if (json.pusher.name === "github-actions[bot]")
     return new Response("ok", { status: 200 });
 
   if (isRelease) {
