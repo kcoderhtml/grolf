@@ -43,7 +43,7 @@ export async function githubHandler(request: Request) {
 export async function githubWebhookHandler(json: any) {
   const isRelease = (json.ref as string).startsWith("refs/tags/");
   // check if the push is a commit or a release
-  if (json.pusher.name === "github-actions[bot]")
+  if (json.pusher.name === "github-actions[bot]" || json.action === "added")
     return new Response("ok", { status: 200 });
 
   if (isRelease) {
