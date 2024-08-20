@@ -130,7 +130,8 @@ bunx prisma db push
 
 ~Use the docker-compose file to run the app in production~
 
-I found out the hard way that prisma and docker don't mix very well; I'm sure there's probably someone who has developed a bunch better system for deployment but my current solution is to just use a local (`~/.config/systemd/user/grolf.service`) systemctl service file and run in on the bare metal with bun directly.
+> [!TIP]
+> I found out the hard way that prisma and docker don't mix very well; I'm sure there's probably someone who has developed a bunch better system for deployment but my current solution is to just use a local (`~/.config/systemd/user/grolf.service`) systemctl service file and run in on the bare metal with bun directly.
 
 ```ini
 [Unit]
