@@ -1,15 +1,22 @@
-# grolf arcade bot
+# Grolf: HC's favorite (and only) commit bot
 
-Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
+<img src=".github/images/grolf-thread.png" align="left" width="200"/>
+Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎  
 
-<div style="display: flex">
-  <img src=".github/images/grolf-thread.png" style="width: 40vw"/>
-  <p>If you've never used grolf before and are curious what it is then here's the TDLR: Grolf is a slack app that acts as an air traffic control room basicaly for your github commits. It takes in webhooks from github for every commit you push to github and then redirects them to the proper arcade thread on slack. It also has pretty graphs all made out of asci and a super nice logging system originaly developed by [@jaspermayone](https://github.com/jaspermayone) for the https://github.com/hackclub/arcadius and https://github.com/hackclub/professor-bloom slack bots.</p>
-</div>
+</br>
+</br>
 
----
+If you've never used grolf before and are curious what it is then here's the TDLR: Grolf is a slack app that acts as an air traffic control room basicaly for your github commits. It takes in webhooks from github for every commit you push to github and then redirects them to the proper arcade thread on slack. It also has pretty graphs all made out of asci and a super nice logging system originaly developed by [@jaspermayone](https://github.com/jaspermayone) for the https://github.com/hackclub/arcadius and https://github.com/hackclub/professor-bloom slack bots.
+
+<img src=".github/images/grolf.jpg" align="right" width="200"/>
 
 _Claim to fame: I demoed this to the founder of Github!_
+
+This ended up being probably my biggest project during arcade and I really enjoyed working on it! While it definetly had quite a few bumps along the way (dropped the db about 5 times i think?) overall it worked way better than I expected and (i think) its been a pretty big hit so far!
+
+If I were to do this over again I would probably end up using a different slack bot structuring. I definetly refined how I like making slackbot with this project and ended up creating https://github.com/kcoderhtml/slackbot-ultimate-template based off what I learned from this project. The beauty of code is that it can always be improved and I plan on doing so with that template!  
+
+I'm also going to continue maintaining this, fixing any issues that get reported, and, hopefully, it will be usefull again sometime in the future!
 
 ## Usage on slack
 
