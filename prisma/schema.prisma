@@ -28,7 +28,7 @@ model Users {
     id                String   @id @default(uuid())
     userName          String
     viewID            String   @default("")
-    githubUser        String   @unique @default("")
+    githubUser        String   @unique @default(uuid())
     installed         Int      @default(0)
     threadTS          String
     expireTime        DateTime
