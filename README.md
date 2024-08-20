@@ -2,6 +2,8 @@
 
 Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
 
+If you've never used grolf before and are curious what it is then here's the TDLR: Grolf is a slack app that acts as an air traffic control room basicaly for your github commits. It takes in webhooks from github for every commit you push to github and then redirects them to the proper arcade thread on slack. It also has pretty graphs all made out of asci and a super nice logging system originaly developed by [@jaspermayone](https://github.com/jaspermayone) for the https://github.com/hackclub/arcadius and https://github.com/hackclub/professor-bloom slack bots.
+
 _Claim to fame: I demoed this to the founder of Github!_
 
 ![the apphome page of grolf](.github/images/apphome.png)
