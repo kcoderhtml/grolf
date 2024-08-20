@@ -128,11 +128,27 @@ bunx prisma db push
 
 ## Production
 
-Use the docker-compose file to run the app in production
+~Use the docker-compose file to run the app in production~
 
-```bash
-docker-compose up -d
+I found out the hard way that prisma and docker don't mix very well; I'm sure there's probably someone who has developed a bunch better system for deployment but my current solution is to just use a local (`~/.config/systemd/user/grolf.service`) systemctl service file and run in on the bare metal with bun directly.
+
+```ini
+[Unit]
+Description=arcade commit helper
+DefaultDependencies=no
+After=network-online.target
+
+[Service]
+Type=exec
+WorkingDirectory=/home/kierank/grolf
+ExecStart=bun run index.ts
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target
 ```
+
+This way its just a simple `git pull; systemctl --user restart grolf` to update grolf!
 
 ## Screenshots
 
