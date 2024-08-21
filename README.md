@@ -1,6 +1,6 @@
 # Grolf: HC's favorite (and only) commit bot
 
-<img src=".github/images/grolf-thread.png" align="left" width="200"/>
+<img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf-thread.png" align="left" width="200"/>
 Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎  
 
 </br>
@@ -8,7 +8,7 @@ Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎
 
 If you've never used grolf before and are curious what it is then here's the TDLR: Grolf is a slack app that acts as an air traffic control room basicaly for your github commits. It takes in webhooks from github for every commit you push to github and then redirects them to the proper arcade thread on slack. It also has pretty graphs all made out of asci and a super nice logging system originaly developed by [@jaspermayone](https://github.com/jaspermayone) for the https://github.com/hackclub/arcadius and https://github.com/hackclub/professor-bloom slack bots.
 
-<img src=".github/images/grolf.jpg" align="right" width="200"/>
+<img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf.jpg" align="right" width="200"/>
 
 _Claim to fame: I demoed this to the founder of Github!_
 
@@ -26,17 +26,17 @@ I'm also going to continue maintaining this, fixing any issues that get reported
   <br/>
 
   First you need to create a new arcade session like below:  
-  ![arcade session](.github/images/arcade-thread.png)  
+  ![arcade session](https://github.com/kcoderhtml/grolf/raw/master/.github/images/arcade-thread.png)  
   Next click the three dots next to your thread's top message  
-  ![message actions popup](.github/images/arcade-message-shortcuts.png)  
+  ![message actions popup](https://github.com/kcoderhtml/grolf/raw/master/.github/images/arcade-message-shortcuts.png)  
   Now click the message shortcuts button and search for `fetch grolf` in the popup  
-  ![the message shortcuts popup](.github/images/messasge-shortcuts.png)  
+  ![the message shortcuts popup](https://github.com/kcoderhtml/grolf/raw/master/.github/images/messasge-shortcuts.png)  
   Now click the fetch grolf shortcut and follow the instructions grolf gives you to authorize your acount with github (if there was a database reset and you need to do this again then enter your github username in the popup follow the link displayed to install grolf and then delete the grolf app from your github acount then reinstall it acording to grolf's instructions)  
-  ![grolf's github login popup](.github/images/grolf-github-login.png)  
+  ![grolf's github login popup](https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf-github-login.png)  
   When installing the grolf app I recommend checking all repositories so that grolf will just work regardless of what you are working on but you can also chose specific repositories if you feel more comfortable that way.  
-  ![grolf github installation](.github/images/grolf-github-install.png)  
+  ![grolf github installation](https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf-github-install.png)  
   Grolf will now send a message in your arcade thread and you are good to go!  
-  ![grolf listening message](.github/images/grolf-listening-message.png)  
+  ![grolf listening message](https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf-listening-message.png)  
 </details>  
 
 <br/>
@@ -133,7 +133,7 @@ bunx prisma db push
 > [!TIP]
 > I found out the hard way that prisma and docker don't mix very well; I'm sure there's probably someone who has developed a bunch better system for deployment but my current solution is to just use a local (`~/.config/systemd/user/grolf.service`) systemctl service file and run in on the bare metal with bun directly.
 
-<img src=".github/images/yea_nay.svg" align="right" width="285"/>
+<img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/yea_nay.svg" align="right" width="285"/>
 
 
 ```ini
@@ -156,8 +156,8 @@ This way its just a simple `git pull; systemctl --user restart grolf` to update 
 
 ## Screenshots
 
-![An example of an arcade thread with grolf](.github/images/thread.png)
-![the apphome page of grolf](.github/images/apphome.png)
+![An example of an arcade thread with grolf](https://github.com/kcoderhtml/grolf/raw/master/.github/images/thread.png)
+![the apphome page of grolf](https://github.com/kcoderhtml/grolf/raw/master/.github/images/apphome.png)
 
 ---
 
