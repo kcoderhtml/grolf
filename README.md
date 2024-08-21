@@ -1,6 +1,6 @@
 # Grolf: HC's favorite (and only) commit bot
 
-<img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf-thread.png" align="left" width="200"/>
+<img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf-thread.png" align="left" width="200" style="padding-right: 3rem"/>
 Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎  
 
 </br>
@@ -133,7 +133,7 @@ bunx prisma db push
 > [!TIP]
 > I found out the hard way that prisma and docker don't mix very well; I'm sure there's probably someone who has developed a bunch better system for deployment but my current solution is to just use a local (`~/.config/systemd/user/grolf.service`) systemctl service file and run in on the bare metal with bun directly.
 
-<img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/yea_nay.svg" align="right" width="285"/>
+<img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/yea_nay.svg" align="right" width="285" style="padding-left: 3rem"/>
 
 
 ```ini
