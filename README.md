@@ -147,6 +147,8 @@ Type=exec
 WorkingDirectory=/home/kierank/grolf
 ExecStart=bun run index.ts
 TimeoutStartSec=0
+Restart=on-failure
+RestartSec=1s
 
 [Install]
 WantedBy=default.target
