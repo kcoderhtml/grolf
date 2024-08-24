@@ -1,7 +1,7 @@
 import { getEnabled, slackApp, prisma } from "../index";
 
 import { t } from "../lib/template";
-import { clog } from "../utils/Logger";
+import { clog, blog } from "../utils/Logger";
 
 const fetchAction = async () => {
   // listen for shortcut
@@ -62,7 +62,7 @@ const fetchAction = async () => {
         },
       });
 
-      const arcadeSessionData: {
+      let arcadeSessionData: {
         ok: boolean;
         data: {
           id: string;
@@ -77,14 +77,72 @@ const fetchAction = async () => {
           work: string;
           messageTs: string;
         };
-      } = await fetch(
-        "https://hackhour.hackclub.com/api/session/" + payload.user.id,
-        {
-          headers: {
-            Authorization: `Key ${process.env.ARCADE_TOKEN}`,
-          },
+        error?: string;
+      };
+
+      try {
+        const response = await fetch(
+          "https://hackhour.hackclub.com/api/session/" + payload.user.id,
+          {
+            headers: {
+              Authorization: `Key ${process.env.ARCADE_TOKEN}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          arcadeSessionData = await response.json();
+        } else {
+          throw new Error("Failed to fetch arcade session data");
         }
-      ).then((res) => res.json());
+      } catch (error) {
+        blog(
+          `Error with the arcade api request for <@${payload.user.id}>: ${error}`,
+          "error"
+        );
+
+        // return an error modal
+        await context.client.views.open({
+          trigger_id: payload.trigger_id,
+          view: {
+            type: "modal",
+            title: {
+              type: "plain_text",
+              text: "Error",
+              emoji: true,
+            },
+            close: {
+              type: "plain_text",
+              text: "Close",
+              emoji: true,
+            },
+            blocks: [
+              {
+                type: "context",
+                elements: [
+                  {
+                    type: "mrkdwn",
+                    text: t("fetch.error", { user_id: payload.user.id }),
+                  },
+                ],
+              },
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text:
+                    "Arcade is probably down but if it isn't please contact one of the following people: " +
+                    process.env.ADMINS?.split(",")
+                      .map((admin) => `<@${admin}>`)
+                      .join(" "),
+                },
+              },
+            ],
+          },
+        });
+
+        return;
+      }
 
       if (arcadeSessionData.ok || !arcadeSessionData.data.completed) {
         if (!user || user.githubUser == undefined) {

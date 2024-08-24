@@ -7,6 +7,7 @@ type template =
   | "fetch.success"
   | "fetch.expired"
   | "fetch.disabled"
+  | "fetch.error"
   | "commit.normal"
   | "commit.release";
 

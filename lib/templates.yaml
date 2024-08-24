@@ -23,6 +23,12 @@ fetch:
     - "I'm disabled <@${user_id}>... :sob:"
     - "Well don't come sniffing around here <@${user_id}>... I'm disabled... :sob:"
     - "I'm disabled <@${user_id}>... :sob: I may never rise again :heavy-sob: if you don't enable me... i might just waste away... :sob:"
+  error:
+    - "Oh no <@${user_id}>! Something went wrong... :boom: :robot_face: I think I tripped over a wire... :sob:"
+    - "Yikes! <@${user_id}>, I encountered an error... :robot_face: :warning: The code gods are not pleased with me... :sob:"
+    - "Uh-oh, <@${user_id}>! Something's broken... :robot_face: :wrench: I'm working on it... :sob: Meanwhile, maybe try again?"
+    - "Eep! I ran into a problem <@${user_id}>... :robot_face: :boom: I'm sorry, but something went wrong... :sob:"
+    - "I malfunctioned <@${user_id}>... :robot_face: :wrench: I guess robots aren't perfect either... :sob:"
 commit:
   normal:
     - "Umrnph; why did you wake me up <@${user_id}>? :robot_face: :sleeping: I was in the middle of a dream... :zzz:\nAnyway, I've committed your data! :tada: the pixie that woke me said its from ${repo_url}... :sparkles:\noh and it also said that it came with a message: ${commit_message} :sparkles:"
