@@ -63,14 +63,31 @@ const fetchAction = async () => {
         },
       });
 
-      const expireTime = await fetch(
-        "https://hackhour.hackclub.com/api/clock/" + payload.user.id
-      )
-        .then((res) => res.text())
-        .then((text) => new Date(new Date().getTime() + parseInt(text)));
-      const arcadeSessionDone = expireTime.getTime() - new Date().getTime() < 0;
+      const arcadeSessionData: {
+        ok: boolean;
+        data: {
+          id: string;
+          createdAt: Date;
+          time: number;
+          elapsed: number;
+          remaining: number;
+          endTime: Date;
+          paused: boolean;
+          completed: boolean;
+          goal: string;
+          work: string;
+          messageTs: string;
+        };
+      } = await fetch(
+        "https://hackhour.hackclub.com/api/session/" + payload.user.id,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.ARCADE_TOKEN}`,
+          },
+        }
+      ).then((res) => res.json());
 
-      if (!arcadeSessionDone) {
+      if (arcadeSessionData.ok || !arcadeSessionData.data.completed) {
         if (!user || user.githubUser == undefined) {
           clog(`User not found in DB: ${payload.user.id}`, "error");
 
@@ -84,8 +101,8 @@ const fetchAction = async () => {
               installed: 0,
               // @ts-expect-error
               threadTS: payload.message.thread_ts,
-              expireTime: expireTime,
-              arcadeSessionDone,
+              expireTime: arcadeSessionData.data.endTime,
+              arcadeSessionDone: arcadeSessionData.data.completed,
             },
           });
 
@@ -212,8 +229,8 @@ const fetchAction = async () => {
             data: {
               // @ts-expect-error
               threadTS: payload.message.thread_ts,
-              expireTime,
-              arcadeSessionDone,
+              expireTime: arcadeSessionData.data.endTime,
+              arcadeSessionDone: arcadeSessionData.data.completed,
             },
           });
 
