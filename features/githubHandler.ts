@@ -99,7 +99,7 @@ export async function githubWebhookHandler(json: any) {
       error?: string;
     } = await fetch("https://hackhour.hackclub.com/api/session/" + user.id, {
       headers: {
-        Authorization: `Bearer ${process.env.ARCADE_TOKEN}`,
+        Authorization: `Key ${process.env.ARCADE_TOKEN}`,
       },
     }).then((res) => res.json());
 
