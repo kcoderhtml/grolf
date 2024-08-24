@@ -81,7 +81,7 @@ export async function githubWebhookHandler(json: any) {
   });
 
   if (user && user.installed === 2 && user.threadTS) {
-    const arcadeSessionData: {
+    let arcadeSessionData: {
       ok: boolean;
       data: {
         id: string;
@@ -97,11 +97,30 @@ export async function githubWebhookHandler(json: any) {
         messageTs: string;
       };
       error?: string;
-    } = await fetch("https://hackhour.hackclub.com/api/session/" + user.id, {
-      headers: {
-        Authorization: `Key ${process.env.ARCADE_TOKEN}`,
-      },
-    }).then((res) => res.json());
+    };
+
+    try {
+      const response = await fetch(
+        "https://hackhour.hackclub.com/api/session/" + user.id,
+        {
+          headers: {
+            Authorization: `Key ${process.env.ARCADE_TOKEN}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        arcadeSessionData = await response.json();
+      } else {
+        throw new Error("Failed to fetch arcade session data");
+      }
+    } catch (error) {
+      blog(
+        `Error with the arcade api request for <@${user.id}>: ${error}`,
+        "error"
+      );
+      return new Response("ok", { status: 200 });
+    }
 
     if (!arcadeSessionData.ok) {
       blog(
