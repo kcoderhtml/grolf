@@ -81,7 +81,7 @@ export async function githubWebhookHandler(json: any) {
   });
 
   if (user && user.installed === 2 && user.threadTS) {
-    if (user.expireTime.getTime() + 1000 * 60 * 5 > Date.now()) {
+    if (user.expireTime.getTime() + 1000 * 60 * 30 > Date.now()) {
       const normalmessage = t("commit.normal", {
         commit_url: json.head_commit.url,
         repo_url: `<${json.repository.html_url}|${json.repository.full_name}>`,
