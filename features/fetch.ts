@@ -2,7 +2,6 @@ import { getEnabled, slackApp, prisma } from "../index";
 
 import { t } from "../lib/template";
 import { clog } from "../utils/Logger";
-import { like } from "drizzle-orm";
 
 const fetchAction = async () => {
   // listen for shortcut
