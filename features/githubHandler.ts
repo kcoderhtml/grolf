@@ -81,7 +81,51 @@ export async function githubWebhookHandler(json: any) {
   });
 
   if (user && user.installed === 2 && user.threadTS) {
-    if (user.expireTime.getTime() + 1000 * 60 * 30 > Date.now()) {
+    const arcadeSessionData: {
+      ok: boolean;
+      data: {
+        id: string;
+        createdAt: Date;
+        time: number;
+        elapsed: number;
+        remaining: number;
+        endTime: Date;
+        paused: boolean;
+        completed: boolean;
+        goal: string;
+        work: string;
+        messageTs: string;
+      };
+      error?: string;
+    } = await fetch("https://hackhour.hackclub.com/api/session/" + user.id, {
+      headers: {
+        Authorization: `Bearer ${process.env.ARCADE_TOKEN}`,
+      },
+    }).then((res) => res.json());
+
+    if (!arcadeSessionData.ok) {
+      blog(
+        `Error with the arcade api request for <@${user.id}>:\nhttps://hackhour.hackclub.com/api/session/${user.id}`,
+        "error"
+      );
+      return new Response("ok", { status: 200 });
+    }
+
+    if (
+      (!arcadeSessionData.data.completed &&
+        arcadeSessionData.data.messageTs === user.threadTS) ||
+      user.expireTime.getTime() + 1000 * 60 * 30 > Date.now()
+    ) {
+      // update expire time
+      await prisma.users.update({
+        where: {
+          githubUser: user.githubUser,
+        },
+        data: {
+          expireTime: arcadeSessionData.data.endTime,
+        },
+      });
+
       const normalmessage = t("commit.normal", {
         commit_url: json.head_commit.url,
         repo_url: `<${json.repository.html_url}|${json.repository.full_name}>`,
