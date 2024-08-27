@@ -170,11 +170,13 @@ export async function githubWebhookHandler(json: any) {
         channel: "C06SBHMQU8G",
         thread_ts: user.threadTS,
         text: isRelease
-          ? `released new version: `
+          ? `released new version: ${
+              (json.ref as string).split("/")[2]
+            } ${releaseUrl}`
           : `committed: ${(json.head_commit.message as string)
               .split("\n")[0]
               .trim()
-              .replaceAll("`", "")}`,
+              .replaceAll("`", "")} ${json.head_commit.url}`,
         blocks: [
           {
             type: "section",
