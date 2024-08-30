@@ -1,4 +1,4 @@
-# Grolf: HC's favorite (and only) commit bot
+# Grolf: HC's favorite (and only) commit bot 
 
 <img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf-thread.png" align="left" width="200" style="padding-right: 3rem"/>
 Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎  
