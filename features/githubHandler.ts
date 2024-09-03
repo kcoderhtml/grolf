@@ -116,7 +116,7 @@ export async function githubWebhookHandler(json: any) {
       }
     } catch (error) {
       blog(
-        `Error with the arcade api request for <@${user.id}>: ${error}`,
+        `Error with the arcade api request for @${user.id}: ${error}`,
         "error"
       );
       return new Response("ok", { status: 200 });
@@ -124,7 +124,7 @@ export async function githubWebhookHandler(json: any) {
 
     if (!arcadeSessionData.ok) {
       blog(
-        `Error with the arcade api request for <@${user.id}>:\nhttps://hackhour.hackclub.com/api/session/${user.id}`,
+        `Error with the arcade api request for @${user.id}:\nhttps://hackhour.hackclub.com/api/session/${user.id}`,
         "error"
       );
       return new Response("ok", { status: 200 });
@@ -219,7 +219,7 @@ export async function githubWebhookHandler(json: any) {
       });
     } else {
       blog(
-        `Arcade session expired for <@${user.id}>! time till finished: ${
+        `Arcade session expired for @${user.id}! time till finished: ${
           user.expireTime.getTime() - Date.now()
         }`,
         "error"
