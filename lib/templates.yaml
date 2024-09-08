@@ -31,8 +31,6 @@ fetch:
     - "I malfunctioned <@${user_id}>... :robot_face: :wrench: I guess robots aren't perfect either... :sob:"
 commit:
   normal:
-    - "${commit_message} :sparkles:"
-    - ":githu: ${commit_message}"
-    - "a :github-goat: just commited: ${commit_message}"
+    - "${commit_message}"
   release:
-    - "<@${user_id}> released `${release_tag}` <${release_url}|Check it out!> :sparkles: :tada:"
+    - "`<${release_url}|${release_tag}>`: ${repo_url}"
