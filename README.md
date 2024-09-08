@@ -1,4 +1,9 @@
-# Grolf: HC's favorite (and only) commit bot 
+# Grolf: HC's favorite (and only) commit bot
+
+![Hours spent working on this](https://w.dunkirk.sh/api/badge/krn/interval:any/project:grolf) ![GitHub repo size](https://img.shields.io/github/repo-size/kcoderhtml/grolf)
+![GitHub language count](https://img.shields.io/github/languages/count/kcoderhtml/grolf)
+![GitHub top language](https://img.shields.io/github/languages/top/kcoderhtml/grolf)
+![GitHub last commit](https://img.shields.io/github/last-commit/kcoderhtml/grolf)
 
 <img src="https://github.com/kcoderhtml/grolf/raw/master/.github/images/grolf-thread.png" align="left" width="200" style="padding-right: 3rem"/>
 Your friendly lightweight arcade helper written in Bun and hosted on nest! 😎  
