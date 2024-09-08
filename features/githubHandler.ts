@@ -179,6 +179,9 @@ export async function githubWebhookHandler(json: any) {
               .replaceAll("`", "")} ${json.head_commit.url}`,
         blocks: [
           {
+            type: "divider",
+          },
+          {
             type: "section",
             text: {
               type: "mrkdwn",
