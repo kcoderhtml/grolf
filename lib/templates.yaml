@@ -1,36 +1,36 @@
 app:
-  startup:
-    - "What'da know? I AM ALIVE! :heart-eng: :robot_face: and running in the env *${environment}*! :tada:"
-    - whoa! hey there! im functional ig... check me out in the env *${environment}*!
+    startup:
+        - "What'da know? I AM ALIVE! :heart-eng: :robot_face: and running in the env *${environment}*! :tada:"
+        - whoa! hey there! im functional ig... check me out in the env *${environment}*!
 fetch:
-  start:
-    - "I'm here to fetch data from the API for <@${user_id}>... :hourglass_flowing_sand:"
-    - "I've bounded in to gobble up your data <@${user_id}>! :robot_face: :zap:"
-  not_found:
-    - "I couldn't find any data for <@${user_id}>... :sob:"
-    - "I'm sorry <@${user_id}>, I couldn't find any data for you... :sob:"
-  success:
-    - "I'm listening to this thread <@${user_id}>! :tada:"
-    - "I've taken up residence in your thread <@${user_id}>! :robot_face: :tada:"
-  expired:
-    - "I'm sorry <@${user_id}>, but your session has expired... :sob:"
-    - "<@${user_id}>, you should really consider making a new session :tw_admission_tickets: :flyingmoney:"
-    - "Your session has expired <@${user_id}>... :sob:"
-    - "Why did you send me here <@${user_id}>? Your session has expired... :sob:"
-    - "You cruel person <@${user_id}>... you let your session expire... :sob:"
-  disabled:
-    - "I'm sorry <@${user_id}>, but I'm disabled... :sob:"
-    - "I'm disabled <@${user_id}>... :sob:"
-    - "Well don't come sniffing around here <@${user_id}>... I'm disabled... :sob:"
-    - "I'm disabled <@${user_id}>... :sob: I may never rise again :heavy-sob: if you don't enable me... i might just waste away... :sob:"
-  error:
-    - "Oh no <@${user_id}>! Something went wrong... :boom: :robot_face: I think I tripped over a wire... :sob:"
-    - "Yikes! <@${user_id}>, I encountered an error... :robot_face: :warning: The code gods are not pleased with me... :sob:"
-    - "Uh-oh, <@${user_id}>! Something's broken... :robot_face: :wrench: I'm working on it... :sob: Meanwhile, maybe try again?"
-    - "Eep! I ran into a problem <@${user_id}>... :robot_face: :boom: I'm sorry, but something went wrong... :sob:"
-    - "I malfunctioned <@${user_id}>... :robot_face: :wrench: I guess robots aren't perfect either... :sob:"
+    start:
+        - "I'm here to fetch data from the API for <@${user_id}>... :hourglass_flowing_sand:"
+        - "I've bounded in to gobble up your data <@${user_id}>! :robot_face: :zap:"
+    not_found:
+        - "I couldn't find any data for <@${user_id}>... :sob:"
+        - "I'm sorry <@${user_id}>, I couldn't find any data for you... :sob:"
+    success:
+        - "I'm listening to this thread <@${user_id}>! :tada:"
+        - "I've taken up residence in your thread <@${user_id}>! :robot_face: :tada:"
+    expired:
+        - "I'm sorry <@${user_id}>, but your session has expired... :sob:"
+        - '<@${user_id}>, you should really consider making a new session :tw_admission_tickets: :flyingmoney:'
+        - 'Your session has expired <@${user_id}>... :sob:'
+        - 'Why did you send me here <@${user_id}>? Your session has expired... :sob:'
+        - 'You cruel person <@${user_id}>... you let your session expire... :sob:'
+    disabled:
+        - "I'm sorry <@${user_id}>, but I'm disabled... :sob:"
+        - "I'm disabled <@${user_id}>... :sob:"
+        - "Well don't come sniffing around here <@${user_id}>... I'm disabled... :sob:"
+        - "I'm disabled <@${user_id}>... :sob: I may never rise again :heavy-sob: if you don't enable me... i might just waste away... :sob:"
+    error:
+        - 'Oh no <@${user_id}>! Something went wrong... :boom: :robot_face: I think I tripped over a wire... :sob:'
+        - 'Yikes! <@${user_id}>, I encountered an error... :robot_face: :warning: The code gods are not pleased with me... :sob:'
+        - "Uh-oh, <@${user_id}>! Something's broken... :robot_face: :wrench: I'm working on it... :sob: Meanwhile, maybe try again?"
+        - "Eep! I ran into a problem <@${user_id}>... :robot_face: :boom: I'm sorry, but something went wrong... :sob:"
+        - "I malfunctioned <@${user_id}>... :robot_face: :wrench: I guess robots aren't perfect either... :sob:"
 commit:
-  normal:
-    - "${commit_message}"
-  release:
-    - "`<${release_url}|${release_tag}>`: ${repo_url}"
+    normal:
+        - '${commit_message}'
+    release:
+        - '`<${release_url}|${release_tag}>`: ${repo_url}'
