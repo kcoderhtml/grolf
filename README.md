@@ -1,6 +1,6 @@
 # Grolf: HC's favorite (and only) commit bot
 
-![Hours spent working on this](https://waka.hackclub.com/api/badge/krn/interval:any/project:grolf)
+![Hours spent working on this](https://waka.hackclub.com/api/badge/U062UG485EE/interval:any/project:grolf)
 ![GitHub repo size](https://img.shields.io/github/repo-size/kcoderhtml/grolf)
 ![GitHub language count](https://img.shields.io/github/languages/count/kcoderhtml/grolf)
 ![GitHub top language](https://img.shields.io/github/languages/top/kcoderhtml/grolf)
